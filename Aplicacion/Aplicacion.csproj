@@ -2,7 +2,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dominio\Dominio.csproj" />
-    <ProjectReference Include="..\Persistencia\Persistencia.csproj" />
+    <ProjectReference Include="..\Persistencia\Infraestructura.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="CasosDeUso\" />
+    <Folder Include="DTOs\" />
   </ItemGroup>
 
   <PropertyGroup>
