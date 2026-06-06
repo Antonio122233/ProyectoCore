@@ -1,6 +1,6 @@
 <Solution>
   <Project Path="Aplicacion/Aplicacion.csproj" />
   <Project Path="Dominio/Dominio.csproj" />
-  <Project Path="Persistencia/Infraestructura.csproj" />
+  <Project Path="Infrastructura/Infraestructura.csproj" />
   <Project Path="WebApi/WebApi.csproj" />
 </Solution>
