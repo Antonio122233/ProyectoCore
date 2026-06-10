@@ -6,6 +6,14 @@ dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connect
 
 dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
 
+--comando para generar dbcontext y las entidades, luego mover entidades Dominio/Models/ 
+Scaffold-DbContext "TU_CONNECTION_STRING" Microsoft.EntityFrameworkCore.SqlServer \
+-Context BdTiendaContext \
+-ContextDir Persistencia \
+-OutputDir Models \
+-Force
+
+
 alinear todas las dependecias a la misma version estable en este momento era 8.0.6
 
 dotnet remove package Microsoft.EntityFrameworkCore.Design

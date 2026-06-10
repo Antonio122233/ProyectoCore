@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Interfaces;
+using Infraestructura.Persistencia;
 using Infraestructura.Repositorios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

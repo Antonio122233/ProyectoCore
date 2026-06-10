@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Domnio.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infraestructura;
+namespace Infraestructura.Persistencia;
 
 public partial class BdTiendaContext : DbContext
 {

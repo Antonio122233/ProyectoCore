@@ -1,5 +1,6 @@
 ﻿using Aplicacion.Interfaces;
 using Domnio.Models;
+using Infraestructura.Persistencia;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
