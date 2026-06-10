@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Aplicacion.Interfaces;
+using Infraestructura.Repositorios;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,9 @@ namespace Infraestructura
             services.AddDbContext<BdTiendaContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            //Registrar Repositorio Genérico
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             return services;
-        }
+        }        
     }
 }
