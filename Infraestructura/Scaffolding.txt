@@ -4,4 +4,29 @@ cd "C:\Visual Studio\Monografia_Ronald_Madre\ProyectoCore\Infraestructura"
 
 dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
 
+dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+alinear todas las dependecias a la misma version estable en este momento era 8.0.6
+
+dotnet remove package Microsoft.EntityFrameworkCore.Design
+dotnet remove package Microsoft.EntityFrameworkCore.Tools
+
+
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 8.0.6
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 8.0.6
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 8.0.6
+
+
+---quitar estos paquetes que ya los tenia la solucion
+
+dotnet remove package Azure.Identity
+dotnet remove package Microsoft.Extensions.Caching.Memory
+dotnet remove package Microsoft.Identity.Client
+
+
+--quitar warnings por los paquetes transitivos
+dotnet add package Azure.Identity --version 1.21.0
+dotnet add package Microsoft.Identity.Client --version 4.84.2
+dotnet add package Microsoft.Extensions.Caching.Memory --version 8.0.1
 
