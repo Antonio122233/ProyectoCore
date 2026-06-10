@@ -1,0 +1,7 @@
+Este comando es para ubicarse en la ruta del proyecto infraestructura. Ojo esto puede cambiar según donde se haya descargado.
+
+cd "C:\Visual Studio\Monografia_Ronald_Madre\ProyectoCore\Infraestructura"
+
+dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+

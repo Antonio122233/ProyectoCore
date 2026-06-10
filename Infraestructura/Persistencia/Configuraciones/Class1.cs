@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infraestructura.Persistencia
+namespace Infraestructura.Persistencia.Configuraciones
 {
-    internal class AppDbContext
+    internal class Class1
     {
     }
 }
