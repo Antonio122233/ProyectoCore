@@ -13,6 +13,7 @@ namespace Infraestructura
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString)
         {
+            //DbContext
             services.AddDbContext<BdTiendaContext>(options =>
                 options.UseSqlServer(connectionString));
 

@@ -1,4 +1,6 @@
+using Aplicacion;
 using Infraestructura;
+using WebApi.Endpoints;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +11,9 @@ if (string.IsNullOrEmpty(connectionString))
     throw new InvalidOperationException("Cadena de conexión 'BdTienda' no encontrada.");
 
 // Agregar Infraestructura con la cadena de conexión
-builder.Services.AddInfrastructure(
+builder.Services.
+    AddApplicationServices().
+    AddInfrastructure(
     builder.Configuration.GetConnectionString("BdTienda")!
 );
 // Add services to the container.
@@ -47,6 +51,9 @@ app.MapGet("/weatherforecast", () =>
 
 app.MapGet("/", () => "API funcionando");
 
+
+//Endpoints
+app.MapMarcaEndpoints();
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
