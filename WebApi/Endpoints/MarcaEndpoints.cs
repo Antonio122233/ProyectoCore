@@ -28,12 +28,7 @@ namespace WebApi.Endpoints
 
                 if (marca == null)
                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
-
-                var response = new ApiResponse<MarcaDto>(
-                                    true,
-                                    "Marca encontrada",
-                                    marca
-                                );
+             
                 return Results.Ok(ApiResponse<MarcaDto>
                 .Ok(marca, "Marca encontrada"));
             });
