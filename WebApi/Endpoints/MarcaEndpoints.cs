@@ -15,7 +15,7 @@ namespace WebApi.Endpoints
             group.MapGet("/", async (IMarcaService service)
                 =>
             {
-                var marcas = await service.GetAllAsync();               
+                var marcas = await service.GetAllAsync();
                 return Results.Ok(ApiResponse<IEnumerable<MarcaDto>>
                     .Ok(marcas, "Listado de Marcas"));
             });
@@ -28,7 +28,7 @@ namespace WebApi.Endpoints
 
                 if (marca == null)
                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
-             
+
                 return Results.Ok(ApiResponse<MarcaDto>
                 .Ok(marca, "Marca encontrada"));
             });
@@ -37,7 +37,7 @@ namespace WebApi.Endpoints
             //  POST (Crear)
             group.MapPost("/", async (MarcaCreateDto dto, IMarcaService service) =>
             {
-                var nueva = await service.CreateAsync(dto);               
+                var nueva = await service.CreateAsync(dto);
                 return Results.Created($"/api/marca/{nueva.Id}", ApiResponse<MarcaDto>.Ok(nueva, "Marca creada correctamente"));
             });
 

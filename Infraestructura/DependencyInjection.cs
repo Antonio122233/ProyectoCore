@@ -19,6 +19,9 @@ namespace Infraestructura
 
             //Registrar Repositorio Genérico
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            //Registrar otros repositorios
+            services.AddScoped(typeof(IMarcaRepository), typeof(MarcaRepository));
             return services;
         }        
     }

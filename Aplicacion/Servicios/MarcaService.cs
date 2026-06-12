@@ -10,9 +10,9 @@ namespace Aplicacion.Servicios
 
     public class MarcaService : IMarcaService
     {
-        private readonly IGenericRepository<TblMarca> _repo;
+        private readonly IMarcaRepository _repo;
 
-        public MarcaService(IGenericRepository<TblMarca> repo)
+        public MarcaService(IMarcaRepository repo)
         {
             _repo = repo;
         }
@@ -38,7 +38,7 @@ namespace Aplicacion.Servicios
             var nueva = new TblMarca
             {
                 Nombre = dto.Nombre,
-                Descripcion = dto.Descripcion               
+                Descripcion = dto.Descripcion
             };
 
             await _repo.AddAsync(nueva);

@@ -5,16 +5,24 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
-
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Infraestructura.Repositorios
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly BdTiendaContext _context;
-        private readonly DbSet<T> _dbSet;
+        //COMO PRIVATE, deberia acceder al context con el set en que cada repo que implemente el generico
+
+        //private readonly BdTiendaContext _context;
+        //private readonly DbSet<T> _dbSet;
+
+        //return await _context.Set<TblMarca>()
+        //.FirstOrDefaultAsync(m => m.Nombre == nombre)
+
+
+        protected readonly BdTiendaContext _context;
+        protected readonly DbSet<T> _dbSet;
 
         public GenericRepository(BdTiendaContext context)
         {

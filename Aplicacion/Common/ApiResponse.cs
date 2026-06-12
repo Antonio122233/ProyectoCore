@@ -19,7 +19,7 @@ namespace Aplicacion.Common
         }
 
         //en caso de fallo
-        public static ApiResponse <object> Fail (string message)
+        public static ApiResponse<object> Fail(string message)
         {
             return new ApiResponse<object>(false, message, null);
         }
