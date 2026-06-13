@@ -1,9 +1,9 @@
-﻿using Aplicacion.DTOs;
+﻿using Aplicacion.DTOs.Marca;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Aplicacion.Interfaces
+namespace Aplicacion.Interfaces.Servicios
 {
     public interface  IMarcaService
     {

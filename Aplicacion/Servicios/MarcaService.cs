@@ -1,5 +1,6 @@
-﻿using Aplicacion.DTOs;
-using Aplicacion.Interfaces;
+﻿using Aplicacion.DTOs.Marca;
+using Aplicacion.Interfaces.Repositorios;
+using Aplicacion.Interfaces.Servicios;
 using Domnio.Models;
 using System;
 using System.Collections.Generic;

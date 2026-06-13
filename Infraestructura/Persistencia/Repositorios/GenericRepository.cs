@@ -1,4 +1,4 @@
-﻿using Aplicacion.Interfaces;
+﻿using Aplicacion.Interfaces.Repositorios;
 using Domnio.Models;
 using Infraestructura.Persistencia;
 using Microsoft.EntityFrameworkCore;

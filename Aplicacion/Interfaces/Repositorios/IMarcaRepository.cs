@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Aplicacion.Interfaces
+namespace Aplicacion.Interfaces.Repositorios
 {
     public interface IMarcaRepository : IGenericRepository<TblMarca>
     {

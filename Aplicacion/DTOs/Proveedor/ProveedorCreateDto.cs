@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Aplicacion.DTOs
+namespace Aplicacion.DTOs.Proveedor
 {
-    public class MarcaCreateDto
+    public class ProveedorCreateDto
     {
-
         public string? Nombre { get; set; }
         public string? Descripcion { get; set; }
-
     }
 }

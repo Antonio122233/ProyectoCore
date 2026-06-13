@@ -1,4 +1,4 @@
-﻿using Aplicacion.Interfaces;
+﻿using Aplicacion.Interfaces.Servicios;
 using Aplicacion.Servicios;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,8 +13,10 @@ namespace Aplicacion
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            //Marcas
+            //Añadir dependencia  de servicios
             services.AddScoped<IMarcaService, MarcaService>();
+            services.AddScoped<IProvedorService,ProveedorService>();
+
             return services;
         }
     }

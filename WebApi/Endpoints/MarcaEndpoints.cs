@@ -1,6 +1,6 @@
 ﻿using Aplicacion.Common;
-using Aplicacion.DTOs;
-using Aplicacion.Interfaces;
+using Aplicacion.DTOs.Marca;
+using Aplicacion.Interfaces.Servicios;
 
 namespace WebApi.Endpoints
 {
@@ -63,7 +63,7 @@ namespace WebApi.Endpoints
 
                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
 
-                return Results.NoContent(); //regresa un 204
+                return Results.NoContent(); //regresa un 404
             });
 
             return app;

@@ -1,4 +1,4 @@
-﻿using Aplicacion.Interfaces;
+﻿using Aplicacion.Interfaces.Repositorios;
 using Infraestructura.Persistencia;
 using Infraestructura.Persistencia.Repositorios;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +21,11 @@ namespace Infraestructura
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             //Registrar otros repositorios
-            services.AddScoped(typeof(IMarcaRepository), typeof(MarcaRepository));
+            services.AddScoped(typeof(IMarcaRepository), typeof(MarcaRepository));            
+            services.AddScoped(typeof(IProveedorRepository), typeof(ProveedorRepository));
+
+
+
             return services;
         }        
     }
