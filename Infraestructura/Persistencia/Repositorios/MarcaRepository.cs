@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Infraestructura.Repositorios
+namespace Infraestructura.Persistencia.Repositorios
 {
     public class MarcaRepository : GenericRepository<TblMarca>, IMarcaRepository
     {

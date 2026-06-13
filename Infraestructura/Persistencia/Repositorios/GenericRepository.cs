@@ -8,7 +8,7 @@ using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
-namespace Infraestructura.Repositorios
+namespace Infraestructura.Persistencia.Repositorios
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
