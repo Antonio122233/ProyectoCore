@@ -16,6 +16,7 @@ namespace Aplicacion
             //Añadir dependencia  de servicios
             services.AddScoped<IMarcaService, MarcaService>();
             services.AddScoped<IProvedorService,ProveedorService>();
+            services.AddScoped<ITipoPagoService,TipoPagoService>();
 
             return services;
         }

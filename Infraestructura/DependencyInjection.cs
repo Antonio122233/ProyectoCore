@@ -23,6 +23,7 @@ namespace Infraestructura
             //Registrar otros repositorios
             services.AddScoped(typeof(IMarcaRepository), typeof(MarcaRepository));            
             services.AddScoped(typeof(IProveedorRepository), typeof(ProveedorRepository));
+            services.AddScoped(typeof(ITipoPagoRepository),typeof(TipoPagoRepository));
 
 
 
