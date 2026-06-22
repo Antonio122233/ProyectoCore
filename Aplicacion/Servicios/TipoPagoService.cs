@@ -54,9 +54,9 @@ namespace Aplicacion.Servicios
 
         public async Task<IEnumerable<TipoPagoDto>> GetAllAsync()
         {
-            var proveedores = await _repo.GetAllAsync();
+            var TiposPagos = await _repo.GetAllAsync();
 
-            return proveedores.Select(
+            return TiposPagos.Select(
                 x => new TipoPagoDto
                 {
                     Descripcion = x.Descripcion,
@@ -66,50 +66,50 @@ namespace Aplicacion.Servicios
                 });
         }
 
-        public async Task<ProveedorDto?> GetByIdAsync(int id)
+        public async Task<TipoPagoDto?> GetByIdAsync(int id)
         {
             if (id <= 0)
                 throw new ArgumentException("Id Incorrecto");
-            var proveedor = await _repo.GetByIdAsync(id);
+            var tipoPago = await _repo.GetByIdAsync(id);
 
-            if (proveedor is null) return null;
+            if (tipoPago is null) return null;
 
-            return new ProveedorDto
+            return new TipoPagoDto
             {
-                Descripcion = proveedor.Descripcion,
-                EstadoRegistro = proveedor.EstadoRegistro,
-                Id = proveedor.IdProveedor,
-                Nombre = proveedor.Nombre,
+                Descripcion = tipoPago.Descripcion,
+                EstadoRegistro = tipoPago.EstadoRegistro,
+                Id = tipoPago.IdTipoPago,
+                Nombre = tipoPago.Nombre,
             };
         }
 
-        public async Task<ProveedorDto?> GetByNombreAsync(string nombre)
+        public async Task<TipoPagoDto?> GetByNombreAsync(string nombre)
         {
             if (string.IsNullOrEmpty(nombre))
             {
                 throw new ArgumentException("Envié un nombre");
             }
 
-            var nombreProveedor = await _repo.GetByNombreAsync(nombre);
-            if (nombreProveedor is null) return null;
+            var nombreTipoPago = await _repo.GetByNombreAsync(nombre);
+            if (nombreTipoPago is null) return null;
 
-            return new ProveedorDto
+            return new TipoPagoDto
             {
-                Descripcion = nombreProveedor.Descripcion,
-                EstadoRegistro = nombreProveedor.EstadoRegistro,
-                Id = nombreProveedor.IdProveedor,
-                Nombre = nombreProveedor.Nombre,
+                Descripcion = nombreTipoPago.Descripcion,
+                EstadoRegistro = nombreTipoPago.EstadoRegistro,
+                Id = nombreTipoPago.IdTipoPago,
+                Nombre = nombreTipoPago.Nombre,
             };
         }
 
-        public async Task<bool> UpdateAsync(int id, ProveedorUpdateDto dto)
+        public async Task<bool> UpdateAsync(int id, TipoPagoUpdateDto dto)
         {
             var existe = await _repo.GetByIdAsync(id);
             if (existe is null) return false;
 
             if (string.IsNullOrWhiteSpace(dto.Nombre))
             {
-                throw new ArgumentException("El nombre del proveedor no puede estar vacio");
+                throw new ArgumentException("El nombre de la forma de pago no puede estar vacio");
             }
 
             existe.Nombre = dto.Nombre;
@@ -118,8 +118,6 @@ namespace Aplicacion.Servicios
 
             await _repo.UpdateAsync(existe);
             return true;
-        }
-
-
+        }     
     }
 }

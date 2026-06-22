@@ -11,7 +11,7 @@ public partial class TblTipoPago
 
     public string? Descripcion { get; set; }
 
-    public bool? EstadoRegistro { get; set; }
+    public bool EstadoRegistro { get; set; }
 
     public virtual ICollection<TblAbono> TblAbonos { get; set; } = new List<TblAbono>();
 

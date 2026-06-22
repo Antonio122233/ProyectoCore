@@ -4,7 +4,14 @@ cd "C:\Visual Studio\Monografia_Ronald_Madre\ProyectoCore\Infraestructura"
 
 dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
 
+--Use este comando 22/06/2026
 dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+--el dbcontext moverlo A Intraesctructura/persistencia
+--una vez movidas las clases de la carpeta a Dominio/Models  ponerles en namespace esto Domnio.Models; 
+--quedaria asi namespace Domnio.Models;
+--en el context cambiar esto using Infraestructura.Models  a  using Domnio.Models;
+--limpiar y recompilar
 
 --comando para generar dbcontext y las entidades, luego mover entidades Dominio/Models/ 
 Scaffold-DbContext "TU_CONNECTION_STRING" Microsoft.EntityFrameworkCore.SqlServer \
