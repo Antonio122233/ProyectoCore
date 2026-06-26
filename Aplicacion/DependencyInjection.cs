@@ -1,4 +1,4 @@
-﻿using Aplicacion.Interfaces.Servicios;
+﻿using Aplicacion.Interfaces;
 using Aplicacion.Servicios;
 using Microsoft.Extensions.DependencyInjection;
 

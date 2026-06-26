@@ -1,6 +1,6 @@
 ﻿using Aplicacion.DTOs.Marca;
+using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
-using Aplicacion.Interfaces.Servicios;
 using Dominio.Models;
 
 namespace Aplicacion.Servicios

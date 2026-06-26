@@ -1,6 +1,6 @@
 ﻿using Aplicacion.Common;
 using Aplicacion.DTOs.Marca;
-using Aplicacion.Interfaces.Servicios;
+using Aplicacion.Interfaces;
 
 namespace WebApi.Endpoints
 {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Aplicacion.Interfaces.Servicios
+namespace Aplicacion.Interfaces
 {
     public interface ITipoPagoService
     {
