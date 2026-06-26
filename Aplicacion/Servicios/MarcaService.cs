@@ -1,10 +1,7 @@
 ﻿using Aplicacion.DTOs.Marca;
 using Aplicacion.Interfaces.Repositorios;
 using Aplicacion.Interfaces.Servicios;
-using Domnio.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Dominio.Models;
 
 namespace Aplicacion.Servicios
 {
@@ -24,7 +21,7 @@ namespace Aplicacion.Servicios
             var marcas = await _repo.GetAllAsync();
             return marcas.Select(m => new MarcaDto
             {
-                Id = m.Id,
+                Id = m.IdMarca,
                 Nombre = m.Nombre,
                 Descripcion = m.Descripcion,
                 EstadoRegistro = m.EstadoRegistro
@@ -46,7 +43,7 @@ namespace Aplicacion.Servicios
 
             return new MarcaDto
             {
-                Id = nueva.Id,
+                Id = nueva.IdMarca,
                 Nombre = nueva.Nombre,
                 Descripcion = nueva.Descripcion,
                 EstadoRegistro = nueva.EstadoRegistro
@@ -73,7 +70,7 @@ namespace Aplicacion.Servicios
             return new MarcaDto
 
             {
-                Id = marca.Id,
+                Id = marca.IdMarca,
                 Nombre = marca.Nombre,
                 Descripcion = marca.Descripcion,
                 EstadoRegistro = marca.EstadoRegistro

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domnio.Models;
+namespace Dominio.Models;
 
 public partial class TblCliente
 {
@@ -13,14 +13,15 @@ public partial class TblCliente
 
     public string? Telefono { get; set; }
 
-    public string? LugarDeContacto { get; set; }
-
     public string? Direccion { get; set; }
+
+    public string? Referencias { get; set; }
 
     public DateTime FechaRegistro { get; set; }
 
-    public string? EstadoCliente { get; set; }
-
+    /// <summary>
+    /// 1 activo y 0 de baja
+    /// </summary>
     public bool EstadoRegistro { get; set; }
 
     public virtual ICollection<TblVenta> TblVenta { get; set; } = new List<TblVenta>();

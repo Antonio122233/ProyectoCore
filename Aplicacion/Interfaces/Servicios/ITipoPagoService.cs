@@ -1,6 +1,6 @@
 ﻿using Aplicacion.DTOs.Proveedor;
 using Aplicacion.DTOs.TipoPago;
-using Domnio.Models;
+using Dominio.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

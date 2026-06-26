@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domnio.Models;
+namespace Dominio.Models;
 
 public partial class TblMarca
 {
-    public int Id { get; set; }
+    public int IdMarca { get; set; }
 
     public string? Nombre { get; set; }
 

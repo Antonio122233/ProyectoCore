@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
-namespace Domnio.Models;
+namespace Dominio.Models;
 
 public partial class TblAbono
 {
@@ -16,13 +15,11 @@ public partial class TblAbono
     /// </summary>
     public decimal MontoAbono { get; set; }
 
-    public int IdFormaPago { get; set; }
+    public int IdTipoPago { get; set; }
 
     public string? Observaciones { get; set; }
 
     public bool EstadoRegistro { get; set; }
-
-    public virtual TblTipoPago IdFormaPagoNavigation { get; set; } = null!;
 
     public virtual TblVenta IdVentaNavigation { get; set; } = null!;
 }

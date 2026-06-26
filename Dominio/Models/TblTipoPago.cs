@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domnio.Models;
+namespace Dominio.Models;
 
 public partial class TblTipoPago
 {
@@ -12,8 +12,6 @@ public partial class TblTipoPago
     public string? Descripcion { get; set; }
 
     public bool EstadoRegistro { get; set; }
-
-    public virtual ICollection<TblAbono> TblAbonos { get; set; } = new List<TblAbono>();
 
     public virtual ICollection<TblCompra> TblCompras { get; set; } = new List<TblCompra>();
 

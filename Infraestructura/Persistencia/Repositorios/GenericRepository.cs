@@ -1,5 +1,5 @@
 ﻿using Aplicacion.Interfaces.Repositorios;
-using Domnio.Models;
+using Dominio.Models;
 using Infraestructura.Persistencia;
 using Microsoft.EntityFrameworkCore;
 using System;

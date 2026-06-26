@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domnio.Models;
+namespace Dominio.Models;
 
-public partial class DetalleVenta
+public partial class TblDetalleVenta
 {
     public int IdDetalleVenta { get; set; }
 
@@ -15,10 +15,7 @@ public partial class DetalleVenta
 
     public decimal PrecioVenta { get; set; }
 
-    /// <summary>
-    /// cantidad * precio_venta
-    /// </summary>
-    public decimal? Subtotal { get; set; }
+    public decimal? SubTotal { get; set; }
 
     public bool EstadoRegistro { get; set; }
 

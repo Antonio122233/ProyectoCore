@@ -2,7 +2,7 @@
 using Aplicacion.DTOs.Proveedor;
 using Aplicacion.Interfaces.Repositorios;
 using Aplicacion.Interfaces.Servicios;
-using Domnio.Models;
+using Dominio.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

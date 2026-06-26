@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domnio.Models;
+namespace Dominio.Models;
 
 public partial class TblCompra
 {
@@ -9,19 +9,24 @@ public partial class TblCompra
 
     public int? IdProveedor { get; set; }
 
-    public string? Descripcion { get; set; }
+    public string? NumFactura { get; set; }
 
     public decimal TotalCompra { get; set; }
 
-    public int? IdTipoPago { get; set; }
+    /// <summary>
+    /// id del de tipo efectivo, credito
+    /// </summary>
+    public int IdTipoPago { get; set; }
 
-    public DateOnly Fecha { get; set; }
+    public string? Observaciones { get; set; }
+
+    public DateOnly FechaCompra { get; set; }
 
     public bool EstadoRegistro { get; set; }
 
-    public virtual ICollection<DetalleCompra> DetalleCompras { get; set; } = new List<DetalleCompra>();
-
     public virtual TblProveedore? IdProveedorNavigation { get; set; }
 
-    public virtual TblTipoPago? IdTipoPagoNavigation { get; set; }
+    public virtual TblTipoPago IdTipoPagoNavigation { get; set; } = null!;
+
+    public virtual ICollection<TblDetalleCompra> TblDetalleCompras { get; set; } = new List<TblDetalleCompra>();
 }

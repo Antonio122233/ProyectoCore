@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Domnio.Models;
+namespace Dominio.Models;
 
 public partial class TblProducto
 {
     public int IdProducto { get; set; }
 
+    public int? IdCategoria { get; set; }
+
+    public int IdMarca { get; set; }
+
+    public string? CodigoProducto { get; set; }
+
     public string Nombre { get; set; } = null!;
 
     public string? Descripcion { get; set; }
-
-    public int? IdCategoria { get; set; }
-
-    public int? StockActual { get; set; }
-
-    public int? IdUnidad { get; set; }
-
-    public int? IdMarca { get; set; }
-
-    public string? Presentacion { get; set; }
 
     public string? Color { get; set; }
 
@@ -27,30 +23,39 @@ public partial class TblProducto
 
     public string? Material { get; set; }
 
-    public decimal? PrecioCompra { get; set; }
-
-    public decimal? PrecioVenta { get; set; }
+    /// <summary>
+    /// Cuanto se tuvo que pagar por el producto
+    /// </summary>
+    public decimal Costo { get; set; }
 
     /// <summary>
-    /// Este campo es para indicar cuando se puede generar una alerta por stock minimo, es decir cuando haya que re abastecer
+    /// Precio de venta al cliente
     /// </summary>
-    public int? CantidadMinima { get; set; }
+    public decimal Precio { get; set; }
+
+    /// <summary>
+    /// cantidad actual del producto
+    /// </summary>
+    public int ExistenciaActual { get; set; }
+
+    /// <summary>
+    /// Existencia minima del producto, cuando deberia re abastecerse
+    /// </summary>
+    public int ExistenciaMinima { get; set; }
 
     public DateOnly FechaRegistro { get; set; }
 
-    public string? CodigoAsociadoDelProducto { get; set; }
-
     public bool EstadoRegistro { get; set; }
 
-    public virtual ICollection<DetalleCompra> DetalleCompras { get; set; } = new List<DetalleCompra>();
+    public DateTime FechaBaja { get; set; }
 
-    public virtual ICollection<DetalleVenta> DetalleVenta { get; set; } = new List<DetalleVenta>();
+    public virtual TblCategoria? IdCategoriaNavigation { get; set; }
 
-    public virtual TblCategorium? IdCategoriaNavigation { get; set; }
+    public virtual TblMarca IdMarcaNavigation { get; set; } = null!;
 
-    public virtual TblMarca? IdMarcaNavigation { get; set; }
+    public virtual ICollection<TblDetalleCompra> TblDetalleCompras { get; set; } = new List<TblDetalleCompra>();
 
-    public virtual TblUnidad? IdUnidadNavigation { get; set; }
+    public virtual ICollection<TblDetalleVenta> TblDetalleVenta { get; set; } = new List<TblDetalleVenta>();
 
     public virtual ICollection<TblMovimientosInventario> TblMovimientosInventarios { get; set; } = new List<TblMovimientosInventario>();
 }

@@ -1,24 +1,34 @@
-Este comando es para ubicarse en la ruta del proyecto infraestructura. Ojo esto puede cambiar según donde se haya descargado.
+Este comando es para ubicarse en la ruta del proyecto infraestructura. Ojo LA ruta puede cambiar según donde se haya descargado.
 
 cd "C:\Visual Studio\Monografia_Ronald_Madre\ProyectoCore\Infraestructura"
 
 dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
 
---Use este comando 22/06/2026
+--OJO--
+--antes de usar el comando ver si tenes instalado dotnet ef en la pc, no es un paquete nugget, es una herramienta
+--para verificar usar este comando 
+dotnet ef
+--si da error o no trae nada, no lo tenes intalado
+
+--INSTALAR herramienta cli EF
+dotnet tool install --global dotnet-ef
+--verificar si se instalo.
+dotnet ef
+
+------------------------------------------------			Actualizar basde de datos y entidades.
+
 dotnet ef dbcontext scaffold "Server=localhost;Database=BdTienda;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
-
---el dbcontext moverlo A Intraesctructura/persistencia
+--eliminar las carpetas de Models en el proyecto Dominio
+--Eliminar el dbcontext que está en Intraesctructura/persistencia
+--el dbcontext creado en Infraestructura/Models  moverlo A Intraesctructura/persistencia
+--Elminar la carpeta Models en Dominio.
+--Mover la carpeta Models en Infraestructura  a Dominio, quedaría así Dominio/Models
 --una vez movidas las clases de la carpeta a Dominio/Models  ponerles en namespace esto Domnio.Models; 
---quedaria asi namespace Domnio.Models;
---en el context cambiar esto using Infraestructura.Models  a  using Domnio.Models;
+--quedaria asi namespace Domnio.Models; hacer esto para todas las entidades.
+--en el context que debería estar en Intraesctructura/persistencia
+ cambiar esto using Infraestructura.Models  a  using Domnio.Models;
 --limpiar y recompilar
-
---comando para generar dbcontext y las entidades, luego mover entidades Dominio/Models/ 
-Scaffold-DbContext "TU_CONNECTION_STRING" Microsoft.EntityFrameworkCore.SqlServer \
--Context BdTiendaContext \
--ContextDir Persistencia \
--OutputDir Models \
--Force
+--Tenga en cuenta que el codigo puede mostrar errores, por using mal escritos o por nombres de campos de tabla que hayan sido actualizados. Si ese fuera el caso corregir los using y poner los nombres correctos, y en las propiedades que den error, poner los nombres correctos, como quedaron en las entidades actualizadas.
 
 
 alinear todas las dependecias a la misma version estable en este momento era 8.0.6
