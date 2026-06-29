@@ -56,7 +56,7 @@ namespace WebApi.Endpoints
 
             //  DELETE (Eliminar)
             group.MapDelete("/{id:int}", async (int id, IMarcaService service) =>
-            {
+             {
                 var eliminado = await service.DeleteAsync(id);
 
                 if (!eliminado)
