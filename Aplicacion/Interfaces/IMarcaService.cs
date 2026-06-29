@@ -12,6 +12,7 @@ namespace Aplicacion.Interfaces
         Task<MarcaDto> CreateAsync(MarcaCreateDto dto);
         Task<bool> UpdateAsync(int id, MarcaUpdateDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<MarcaDto>> GetActiveAsync();
 
     }
 }

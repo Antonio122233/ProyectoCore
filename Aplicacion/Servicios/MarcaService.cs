@@ -36,7 +36,8 @@ namespace Aplicacion.Servicios
             var nueva = new TblMarca
             {
                 Nombre = dto.Nombre,
-                Descripcion = dto.Descripcion
+                Descripcion = dto.Descripcion,
+                EstadoRegistro  = true
             };
 
             await _repo.AddAsync(nueva);
@@ -50,12 +51,27 @@ namespace Aplicacion.Servicios
             };
         }
 
+        //public async Task<bool> DeleteAsync(int id)
+        //{
+        //    var entidad = await _repo.GetByIdAsync(id);
+        //    if (entidad is null) return false;
+
+        //    await _repo.DeleteAsync(entidad);
+        //    return true;
+        //}
+
         public async Task<bool> DeleteAsync(int id)
         {
             var entidad = await _repo.GetByIdAsync(id);
             if (entidad is null) return false;
 
-            await _repo.DeleteAsync(entidad);
+            if (!entidad.EstadoRegistro)
+            {
+                return false; // ya esta inactivo
+            }
+
+            entidad.EstadoRegistro =false;
+            await _repo.UpdateAsync(entidad);
             return true;
         }
 
@@ -92,6 +108,21 @@ namespace Aplicacion.Servicios
             await _repo.UpdateAsync(existente);
 
             return true;
+        }
+
+        public async Task<IEnumerable<MarcaDto>> GetActiveAsync()
+        {
+            var marcas = await _repo.GetActiveAsync();
+            return marcas.Select(
+
+                m => new MarcaDto
+                {
+                    Id = m.IdMarca,
+                    Nombre = m.Nombre,
+                    Descripcion = m.Descripcion,
+                    EstadoRegistro = m.EstadoRegistro
+                }
+                );
         }
     }
 }

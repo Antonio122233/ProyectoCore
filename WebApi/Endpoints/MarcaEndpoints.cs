@@ -20,6 +20,16 @@ namespace WebApi.Endpoints
                     .Ok(marcas, "Listado de Marcas"));
             });
 
+            //activas
+
+            group.MapGet("/activas", async (IMarcaService service)
+                 =>
+            {
+                var marcas =await service.GetActiveAsync();
+                return Results.Ok(ApiResponse<IEnumerable<MarcaDto>>
+                    .Ok(marcas, "Listado de marcas activas"));
+            });
+
 
             // GET BY ID
             group.MapGet("/{id:int}", async (int id, IMarcaService service) =>
@@ -64,8 +74,7 @@ namespace WebApi.Endpoints
                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
 
                 return Results.NoContent(); //regresa un 204
-            });
-
+            });            
             return app;
         }
     }

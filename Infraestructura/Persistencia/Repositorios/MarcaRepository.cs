@@ -14,6 +14,14 @@ namespace Infraestructura.Persistencia.Repositorios
         {
             
         }
+
+        public async Task<IEnumerable<TblMarca>> GetActiveAsync()
+        {
+            // x=>x.EstadoRegistro es true, no necesito poner el  == true
+            return await _dbSet.Where(x=>x.EstadoRegistro)
+                .ToListAsync();
+        }
+
         public async Task<TblMarca?> GetByNombreAsync(string nombre)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Nombre == nombre);

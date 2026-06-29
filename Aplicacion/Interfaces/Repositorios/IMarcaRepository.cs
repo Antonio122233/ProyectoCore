@@ -8,5 +8,7 @@ namespace Aplicacion.Interfaces.Repositorios
     public interface IMarcaRepository : IGenericRepository<TblMarca>
     {
         Task<TblMarca?> GetByNombreAsync(string nombre);
+        Task<IEnumerable<TblMarca>> GetActiveAsync();
+
     }
 }
