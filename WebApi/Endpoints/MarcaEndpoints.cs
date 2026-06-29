@@ -30,7 +30,7 @@ namespace WebApi.Endpoints
                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
 
                 return Results.Ok(ApiResponse<MarcaDto>
-                .Ok(marca, "Marca encontrada"));
+              .Ok(marca, "Marca encontrada"));
             });
 
 
@@ -63,7 +63,7 @@ namespace WebApi.Endpoints
 
                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
 
-                return Results.NoContent(); //regresa un 404
+                return Results.NoContent(); //regresa un 204
             });
 
             return app;
