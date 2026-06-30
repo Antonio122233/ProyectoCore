@@ -15,6 +15,8 @@ namespace Aplicacion.Interfaces
         Task<bool> UpdateAsync(int id, TipoPagoUpdateDto dto);
         Task<bool> DeleteAsync(int id);
         Task<TipoPagoDto?> GetByNombreAsync(string nombre);
+
+        Task<IEnumerable<TipoPagoDto>> GetActiveAsync();
     }
 }
 

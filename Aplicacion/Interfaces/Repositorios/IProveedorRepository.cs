@@ -8,5 +8,6 @@ namespace Aplicacion.Interfaces.Repositorios
     public interface  IProveedorRepository : IGenericRepository<TblProveedore>
     {
         Task<TblProveedore?> GetByNombreAsync(string nombre);
+        Task<IEnumerable<TblProveedore>> GetActiveAsync();
     }
 }

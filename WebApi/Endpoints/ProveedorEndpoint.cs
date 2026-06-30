@@ -8,7 +8,7 @@ namespace WebApi.Endpoints
     public static class ProveedorEndpoint
     {
 
-        public static  WebApplication MapProveedorEndpoints(this WebApplication app)
+        public static WebApplication MapProveedorEndpoints(this WebApplication app)
         {
             var group = app.MapGroup("/api/proveedor")
                 .WithTags("Proveedores");
@@ -21,6 +21,16 @@ namespace WebApi.Endpoints
                 return Results.Ok(ApiResponse<IEnumerable<ProveedorDto>>
                     .Ok(proveedores, "Listado de Proveedores"));
             });
+
+            //solo activas
+            group.MapGet("/activas", async (IProvedorService service)
+                =>
+            {
+                var proveedores = await service.GetActiveAsync();
+                return Results.Ok(ApiResponse<IEnumerable<ProveedorDto>>
+                    .Ok(proveedores, "Listado de Proveedores Activos"));
+            }
+             );
 
             //Get by Id
 
@@ -47,7 +57,7 @@ namespace WebApi.Endpoints
             group.MapPut("/{id:int}", async (int id, ProveedorUpdateDto dto, IProvedorService service) =>
 
             {
-                var actualizado = await service.UpdateAsync(id,dto);
+                var actualizado = await service.UpdateAsync(id, dto);
 
                 if (!actualizado)
                     return Results.NotFound(ApiResponse<object>.Fail("Proveedor no encontrada"));

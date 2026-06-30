@@ -14,6 +14,11 @@ namespace Infraestructura.Persistencia.Repositorios
                 
         }
 
+        public async Task<IEnumerable<TblProveedore>> GetActiveAsync()
+        {
+            return await _dbSet.Where(x => x.EstadoRegistro).ToListAsync();
+        }
+
         public  async Task<TblProveedore?> GetByNombreAsync(string nombre)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Nombre == nombre);

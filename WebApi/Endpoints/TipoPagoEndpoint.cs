@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Common;
+using Aplicacion.DTOs.Proveedor;
 using Aplicacion.DTOs.TipoPago;
 using Aplicacion.Interfaces;
 
@@ -19,6 +20,16 @@ namespace WebApi.Endpoints
                 return Results.Ok(ApiResponse<IEnumerable<TipoPagoDto>>
                     .Ok(tiposPago, "Listado de Tipos de pago"));
             });
+
+            //solo activas
+            group.MapGet("/activas", async (ITipoPagoService service)
+                =>
+            {
+                var tiposPago = await service.GetActiveAsync();
+                return Results.Ok(ApiResponse<IEnumerable<TipoPagoDto>>
+                    .Ok(tiposPago, "Listado de tipos de pago Activos"));
+            }
+             );
 
             //Get by Id
 

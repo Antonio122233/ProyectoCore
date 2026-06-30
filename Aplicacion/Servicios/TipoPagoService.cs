@@ -43,13 +43,31 @@ namespace Aplicacion.Servicios
         public async Task<bool> DeleteAsync(int id)
         {
             var entidad = await _repo.GetByIdAsync(id);
-            if (entidad is null)
+            if (entidad is null) return false;
+
+            if (!entidad.EstadoRegistro)
             {
-                return false;
+                return false; // ya esta inactivo
             }
 
-            await _repo.DeleteAsync(entidad);
+            entidad.EstadoRegistro = false;
+            await _repo.UpdateAsync(entidad);
             return true;
+        }
+
+        public async Task<IEnumerable<TipoPagoDto>> GetActiveAsync()
+        {
+            var TiposPagos = await _repo.GetActiveAsync();
+
+            return TiposPagos.Select(
+                x => new TipoPagoDto
+                {
+                    Descripcion = x.Descripcion,
+                    EstadoRegistro = x.EstadoRegistro,
+                    Id = x.IdTipoPago,
+                    Nombre = x.Nombre
+                }
+                );
         }
 
         public async Task<IEnumerable<TipoPagoDto>> GetAllAsync()

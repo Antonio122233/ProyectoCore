@@ -8,5 +8,6 @@ namespace Aplicacion.Interfaces.Repositorios
     public interface ITipoPagoRepository : IGenericRepository<TblTipoPago>
     {
         Task<TblTipoPago?> GetByNombreAsync(string nombre);
+        Task<IEnumerable<TblTipoPago>> GetActiveAsync();
     }
 }

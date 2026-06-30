@@ -48,8 +48,28 @@ namespace Aplicacion.Servicios
                 return false;
             }
 
-            await _repo.DeleteAsync(entidad);
+            if (!entidad.EstadoRegistro)
+            {
+                return false; //ya esta inactivo
+            }
+
+            entidad.EstadoRegistro= false;
+            await _repo.UpdateAsync(entidad);
             return true;
+        }
+
+        public async Task<IEnumerable<ProveedorDto>> GetActiveAsync()
+        {
+            var proveedores = await _repo.GetActiveAsync();
+            return proveedores.Select(
+                x => new ProveedorDto
+                {
+                    Descripcion = x.Descripcion,
+                    EstadoRegistro = x.EstadoRegistro,
+                    Id = x.IdProveedor,
+                    Nombre = x.Nombre
+                }
+                );
         }
 
         public async Task<IEnumerable<ProveedorDto>> GetAllAsync()

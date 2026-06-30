@@ -18,5 +18,11 @@ namespace Infraestructura.Persistencia.Repositorios
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.Nombre == nombre);
         }
+
+        public async Task<IEnumerable<TblTipoPago>> GetActiveAsync()
+        {
+            return await _dbSet.Where(x => x.EstadoRegistro).ToListAsync();
+        }
+
     }
 }
