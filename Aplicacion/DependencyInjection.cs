@@ -17,6 +17,8 @@ namespace Aplicacion
             services.AddScoped<IMarcaService, MarcaService>();
             services.AddScoped<IProvedorService,ProveedorService>();
             services.AddScoped<ITipoPagoService,TipoPagoService>();
+            services.AddScoped<ICategoriaService,CategoriaService>();
+            
 
             return services;
         }
