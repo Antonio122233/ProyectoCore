@@ -5,6 +5,7 @@ using WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 //validamos que exista la cadena de conexion
 var connectionString = builder.Configuration.GetConnectionString("BdTienda");
 if (string.IsNullOrEmpty(connectionString))
@@ -25,6 +26,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    
     app.MapOpenApi();
 }
 
