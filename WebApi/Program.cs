@@ -36,4 +36,6 @@ app.UseHttpsRedirection();
 app.MapMarcaEndpoints();
 app.MapProveedorEndpoints();
 app.MapTipoPagoEndpoints();
+app.MapCategoriaEnpoint();
+
 app.Run();
