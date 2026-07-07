@@ -49,7 +49,7 @@ namespace WebApi.Endpoints
             group.MapPost("/", async (CategoriaCreateDto dto, ICategoriaService service) =>
             {
                 var nueva = await service.CreateAsync(dto);
-                return Results.Created($"/api/marca/{nueva.IdCategoria}", ApiResponse<CategoriaDto>.Ok(nueva, "Categoria creada correctamente"));
+                return Results.Created($"/api/categoria/{nueva.IdCategoria}", ApiResponse<CategoriaDto>.Ok(nueva, "Categoria creada correctamente"));
             });
 
 
