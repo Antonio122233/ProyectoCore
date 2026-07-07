@@ -47,7 +47,7 @@ public partial class TblProducto
 
     public bool EstadoRegistro { get; set; }
 
-    public DateTime FechaBaja { get; set; }
+    public DateTime? FechaBaja { get; set; }
 
     public virtual TblCategoria? IdCategoriaNavigation { get; set; }
 
