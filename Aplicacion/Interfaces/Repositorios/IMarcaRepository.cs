@@ -9,6 +9,5 @@ namespace Aplicacion.Interfaces.Repositorios
     {
         Task<TblMarca?> GetByNombreAsync(string nombre);
         Task<IEnumerable<TblMarca>> GetActiveAsync();
-
     }
 }

@@ -25,7 +25,7 @@ namespace WebApi.Endpoints
             group.MapGet("/activas", async (IMarcaService service)
                  =>
             {
-                var marcas =await service.GetActiveAsync();
+                var marcas = await service.GetActiveAsync();
                 return Results.Ok(ApiResponse<IEnumerable<MarcaDto>>
                     .Ok(marcas, "Listado de marcas activas"));
             });
@@ -67,14 +67,26 @@ namespace WebApi.Endpoints
             //  DELETE (Eliminar)
             group.MapDelete("/{id:int}", async (int id, IMarcaService service) =>
              {
-                var eliminado = await service.DeleteAsync(id);
+                 var eliminado = await service.DeleteAsync(id);
 
-                if (!eliminado)
+                 if (!eliminado)
 
-                    return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
+                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
 
-                return Results.NoContent(); //regresa un 204
-            });            
+                 return Results.NoContent(); //regresa un 204
+             });
+
+            group.MapGet("/nombre/{nombre}", async (string nombre, IMarcaService service) =>
+            {
+                var marca = await service.GetByNombreAsync(nombre);
+
+                if (marca == null)
+                {
+                    return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));                    
+                }
+                return Results.Ok(ApiResponse<MarcaDto>.Ok(marca, "Marca encontrada"));
+            });
+
             return app;
         }
     }

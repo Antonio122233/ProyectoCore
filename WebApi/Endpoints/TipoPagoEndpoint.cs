@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Common;
+using Aplicacion.DTOs.Categoria;
 using Aplicacion.DTOs.Proveedor;
 using Aplicacion.DTOs.TipoPago;
 using Aplicacion.Interfaces;
@@ -12,7 +13,7 @@ namespace WebApi.Endpoints
             var group = app.MapGroup("/api/tipopago")
                 .WithTags("tiposPago");
 
-            //GET  ALL : api/proveedor
+            //GET  ALL : api/tipopago
             group.MapGet("/", async (ITipoPagoService service)
                 =>
             {
@@ -74,6 +75,17 @@ namespace WebApi.Endpoints
                     return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
 
                 return Results.NoContent(); //regresa un 404
+            });
+
+            group.MapGet("/nombre/{nombre}", async (string nombre, ITipoPagoService service) =>
+            {
+                var categoria = await service.GetByNombreAsync(nombre);
+
+                if (categoria == null)
+                {
+                    return Results.NotFound(ApiResponse<object>.Fail("Tipo de pago no encontrado"));
+                }
+                return Results.Ok(ApiResponse<TipoPagoDto>.Ok(categoria, "Tipo de pag encontrado"));
             });
 
             return app;

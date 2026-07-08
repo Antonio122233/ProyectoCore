@@ -77,6 +77,17 @@ namespace WebApi.Endpoints
                 return Results.NoContent(); //regresa un 404
             });
 
+            group.MapGet("/nombre/{nombre}", async (string nombre, IProvedorService service) =>
+            {
+                var proveedor = await service.GetByNombreAsync(nombre);
+
+                if (proveedor == null)
+                {
+                    return Results.NotFound(ApiResponse<object>.Fail("proveedor no encontrado"));
+                }
+                return Results.Ok(ApiResponse<ProveedorDto>.Ok(proveedor, "Proveedor encontrado"));
+            });
+
             return app;
         }
     }

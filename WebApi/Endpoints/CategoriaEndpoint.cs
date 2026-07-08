@@ -12,7 +12,7 @@ namespace WebApi.Endpoints
             var group = app.MapGroup("/api/categoria")
                 .WithTags("Categoria");
 
-            //GET  ALL : api/marca
+            //GET  ALL : api/categoria
             group.MapGet("/", async (ICategoriaService service)
                 =>
             {
@@ -76,6 +76,19 @@ namespace WebApi.Endpoints
 
                 return Results.NoContent(); //regresa un 204
             });
+
+
+            group.MapGet("/nombre/{nombre}", async (string nombre, ICategoriaService service) =>
+            {
+                var categoria = await service.GetByNombreAsync(nombre);
+
+                if (categoria == null)
+                {
+                    return Results.NotFound(ApiResponse<object>.Fail("Categoria no encontrada"));
+                }
+                return Results.Ok(ApiResponse<CategoriaDto>.Ok(categoria, "Categoria encontrada"));
+            });
+
 
 
             return app;

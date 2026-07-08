@@ -1,4 +1,5 @@
 ﻿using Aplicacion.DTOs.Marca;
+using Aplicacion.DTOs.TipoPago;
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
 using Dominio.Models;
@@ -123,6 +124,25 @@ namespace Aplicacion.Servicios
                     EstadoRegistro = m.EstadoRegistro
                 }
                 );
+        }
+
+        public async Task<MarcaDto?> GetByNombreAsync(string nombre)
+        {
+            if (string.IsNullOrEmpty(nombre))
+            {
+                throw new ArgumentException("Envié un nombre");
+            }
+
+            var marca = await _repo.GetByNombreAsync(nombre);
+            if (marca is null) return null;
+
+            return new MarcaDto
+            {
+                Descripcion = marca.Descripcion,
+                EstadoRegistro = marca.EstadoRegistro,
+                Id = marca.IdMarca,
+                Nombre = marca.Nombre
+            };
         }
     }
 }
