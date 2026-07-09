@@ -72,7 +72,7 @@ namespace WebApi.Endpoints
 
                 if (!eliminado)
 
-                    return Results.NotFound(ApiResponse<object>.Fail("Marca no encontrada"));
+                    return Results.NotFound(ApiResponse<object>.Fail("tipo de pago no encontrada"));
 
                 return Results.NoContent(); //regresa un 404
             });
