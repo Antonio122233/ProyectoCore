@@ -76,6 +76,7 @@ namespace WebApi.Endpoints
                  return Results.NoContent(); //regresa un 204
              });
 
+            //get by nombre
             group.MapGet("/nombre/{nombre}", async (string nombre, IMarcaService service) =>
             {
                 var marca = await service.GetByNombreAsync(nombre);

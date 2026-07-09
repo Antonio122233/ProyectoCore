@@ -1,12 +1,7 @@
-﻿using Aplicacion.DTOs.Marca;
-using Aplicacion.DTOs.Producto;
+﻿using Aplicacion.DTOs.Producto;
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
 using Dominio.Models;
-using System;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Text;
 
 namespace Aplicacion.Servicios
 {
@@ -130,9 +125,35 @@ namespace Aplicacion.Servicios
             });
         }
 
-        public Task<ProductoDto?> GetByCategoriaAsync(int idCategoria)
+        public async Task<ProductoDto?> GetByCategoriaAsync(int idCategoria)
         {
-            throw new NotImplementedException();
+            if (idCategoria <= 0)
+                throw new ArgumentException("ID inválido");
+
+            var producto = await _repo.GetByCategoriaAsync(idCategoria);
+
+            if (producto is null) return null;
+
+            return new ProductoDto
+
+            {
+                IdProducto = producto.IdProducto,
+                Color = producto.Color,
+                CodigoProducto = producto.CodigoProducto,
+                Costo = producto.Costo,
+                Descripcion = producto.Descripcion,
+                EstadoRegistro = producto.EstadoRegistro,
+                ExistenciaActual = producto.ExistenciaActual,
+                ExistenciaMinima = producto.ExistenciaMinima,
+                FechaBaja = producto.FechaBaja,
+                FechaRegistro = producto.FechaRegistro,
+                IdCategoria = producto.IdCategoria,
+                IdMarca = producto.IdMarca,
+                Material = producto.Material,
+                Nombre = producto.Nombre,
+                Precio = producto.Precio,
+                Talla = producto.Talla
+            };
         }
 
         public async Task<ProductoDto?> GetByIdAsync(int id)
@@ -166,34 +187,171 @@ namespace Aplicacion.Servicios
             };
         }
 
-        public Task<ProductoDto?> GetByMarcaAsync(int idMarca)
+        public async Task<ProductoDto?> GetByMarcaAsync(int idMarca)
         {
-            throw new NotImplementedException();
+            if (idMarca <= 0)
+                throw new ArgumentException("ID inválido");
+
+            var producto = await _repo.GetByCategoriaAsync(idMarca);
+
+            if (producto is null) return null;
+
+            return new ProductoDto
+
+            {
+                IdProducto = producto.IdProducto,
+                Color = producto.Color,
+                CodigoProducto = producto.CodigoProducto,
+                Costo = producto.Costo,
+                Descripcion = producto.Descripcion,
+                EstadoRegistro = producto.EstadoRegistro,
+                ExistenciaActual = producto.ExistenciaActual,
+                ExistenciaMinima = producto.ExistenciaMinima,
+                FechaBaja = producto.FechaBaja,
+                FechaRegistro = producto.FechaRegistro,
+                IdCategoria = producto.IdCategoria,
+                IdMarca = producto.IdMarca,
+                Material = producto.Material,
+                Nombre = producto.Nombre,
+                Precio = producto.Precio,
+                Talla = producto.Talla
+            };
         }
 
-        public Task<ProductoDto?> GetByNombreAsync(string nombre)
+        public async Task<ProductoDto?> GetByNombreAsync(string nombre)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                throw new ArgumentException("Envie un nombre");
+            }
+
+            var producto = await _repo.GetByNombreAsync(nombre);
+            if (producto is null)
+            {
+                return null;
+            }
+
+            return new ProductoDto
+
+            {
+                IdProducto = producto.IdProducto,
+                Color = producto.Color,
+                CodigoProducto = producto.CodigoProducto,
+                Costo = producto.Costo,
+                Descripcion = producto.Descripcion,
+                EstadoRegistro = producto.EstadoRegistro,
+                ExistenciaActual = producto.ExistenciaActual,
+                ExistenciaMinima = producto.ExistenciaMinima,
+                FechaBaja = producto.FechaBaja,
+                FechaRegistro = producto.FechaRegistro,
+                IdCategoria = producto.IdCategoria,
+                IdMarca = producto.IdMarca,
+                Material = producto.Material,
+                Nombre = producto.Nombre,
+                Precio = producto.Precio,
+                Talla = producto.Talla
+            };
         }
 
-        public Task<IEnumerable<ProductoDto>> ObtenerProductosStockBajoAsync()
+        public async Task<IEnumerable<ProductoDto>> ObtenerProductosStockBajoAsync()
         {
-            throw new NotImplementedException();
+            var productos = await _repo.ObtenerProductosStockBajoAsync();
+            return productos.Select(
+
+             m => new ProductoDto
+             {
+                 IdProducto = m.IdProducto,
+                 Color = m.Color,
+                 CodigoProducto = m.CodigoProducto,
+                 Costo = m.Costo,
+                 Descripcion = m.Descripcion,
+                 EstadoRegistro = m.EstadoRegistro,
+                 ExistenciaActual = m.ExistenciaActual,
+                 ExistenciaMinima = m.ExistenciaMinima,
+                 FechaBaja = m.FechaBaja,
+                 FechaRegistro = m.FechaRegistro,
+                 IdCategoria = m.IdCategoria,
+                 IdMarca = m.IdMarca,
+                 Material = m.Material,
+                 Nombre = m.Nombre,
+                 Precio = m.Precio,
+                 Talla = m.Talla
+             }
+             );
         }
 
-        public Task<ProductoDto?> SearchByCodigoAsync(string codigo)
+        public async Task<ProductoDto?> SearchByCodigoAsync(string codigo)
         {
-            throw new NotImplementedException();
-        }
+            if (string.IsNullOrWhiteSpace(codigo))
+            {
+                throw new ArgumentException("Envie un codigo");
+            }
 
-        public Task<ProductoDto?> SearchByNombreAsync(string nombre)
-        {
-            throw new NotImplementedException();
-        }
+            var producto = await _repo.GetByNombreAsync(codigo);
+            if (producto is null)
+            {
+                return null;
+            }
 
-        public Task<bool> UpdateAsync(int id, ProductoUpdateDto dto)
+            return new ProductoDto
+
+            {
+                IdProducto = producto.IdProducto,
+                Color = producto.Color,
+                CodigoProducto = producto.CodigoProducto,
+                Costo = producto.Costo,
+                Descripcion = producto.Descripcion,
+                EstadoRegistro = producto.EstadoRegistro,
+                ExistenciaActual = producto.ExistenciaActual,
+                ExistenciaMinima = producto.ExistenciaMinima,
+                FechaBaja = producto.FechaBaja,
+                FechaRegistro = producto.FechaRegistro,
+                IdCategoria = producto.IdCategoria,
+                IdMarca = producto.IdMarca,
+                Material = producto.Material,
+                Nombre = producto.Nombre,
+                Precio = producto.Precio,
+                Talla = producto.Talla
+            };
+        }
+      
+        public async Task<bool> UpdateAsync(int id, ProductoUpdateDto dto)
         {
-            throw new NotImplementedException();
+            if (id <= 0)
+            {
+                throw new ArgumentException("Id no puede ser negativo");
+            }
+
+            if (dto is null || string.IsNullOrWhiteSpace(dto.Descripcion))
+            {
+                throw new ArgumentException("Debe enviar los datos a actualizar");
+            }
+
+            var existe = await _repo.GetByIdAsync(id);
+            if (existe is null)
+            {
+                return false;
+            }
+
+            existe.Color = dto.Color;
+            existe.Costo = dto.Costo;
+            existe.Descripcion = dto.Descripcion;
+            existe.ExistenciaMinima = dto.ExistenciaMinima;
+            existe.ExistenciaActual = dto.ExistenciaActual;
+            existe.EstadoRegistro = dto.EstadoRegistro;
+            existe.FechaRegistro = dto.FechaRegistro;
+            existe.Talla = dto.Talla;
+            existe.CodigoProducto = dto.CodigoProducto;            
+            existe.FechaBaja = dto.FechaBaja;
+            existe.Nombre = dto.Nombre;
+            existe.Material =dto.Material;
+            existe.Precio = dto.Precio;
+            existe.IdCategoria = dto.IdCategoria;
+            existe.IdMarca = dto.IdMarca;
+
+
+            await _repo.UpdateAsync(existe);
+            return true;
         }
     }
 }

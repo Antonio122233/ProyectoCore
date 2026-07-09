@@ -29,7 +29,6 @@ namespace Aplicacion.Interfaces
         Task<ProductoDto?> GetByCategoriaAsync(int idCategoria);
         Task<ProductoDto?> GetByMarcaAsync(int idMarca);
         Task<IEnumerable<ProductoDto>> ObtenerProductosStockBajoAsync();
-        Task<ProductoDto?> SearchByCodigoAsync(string codigo);
-        Task<ProductoDto?> SearchByNombreAsync(string nombre);        
+        Task<ProductoDto?> SearchByCodigoAsync(string codigo);            
     }
 }
