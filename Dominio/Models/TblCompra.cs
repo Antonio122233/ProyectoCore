@@ -20,7 +20,7 @@ public partial class TblCompra
 
     public string? Observaciones { get; set; }
 
-    public DateOnly FechaCompra { get; set; }
+    public DateTime FechaCompra { get; set; }
 
     public bool EstadoRegistro { get; set; }
 
