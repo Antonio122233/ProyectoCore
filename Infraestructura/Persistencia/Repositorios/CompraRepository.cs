@@ -15,14 +15,26 @@ namespace Infraestructura.Persistencia.Repositorios
 
         public async Task<IEnumerable<TblCompra>> GetByFechaAsync(DateTime Fecha)
         {
-            //el .date compara solo las fechas.
-            return await _dbSet.Where(x=>x.FechaCompra.Date == Fecha.Date).ToListAsync();                            
+            //el .date compara solo las fechas.                                   
+            return await _dbSet
+                .Include(x => x.IdProveedorNavigation)
+                .Include(x => x.IdTipoPagoNavigation)
+                .Include(x => x.TblDetalleCompras)
+                .Where(x => x.FechaCompra.Date == Fecha.Date)
+                .AsNoTracking()
+                .TagWith("--OBTENER COMPRAS POR FECHA")
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<TblCompra>> GetByProveedor(int idProveedor)
         {
             return await _dbSet
+                .Include(x => x.IdProveedorNavigation)
+                .Include(x => x.IdTipoPagoNavigation)
+                .Include(x => x.TblDetalleCompras)
                .Where(c => c.IdProveedor == idProveedor && c.EstadoRegistro)
+               .AsNoTracking()
+               .TagWith("--OBTENER COMPRAS POR PROVEEDOR")
                .ToListAsync();
         }
     }

@@ -7,7 +7,7 @@ namespace Aplicacion.DTOs.Compra
     public class CompraDto
     {
         public int IdCompra { get; set; }
-        public int IdProveedor { get; set; }
+        public int? IdProveedor { get; set; }
         public string? NombreProveedor { get; set; }
         public int IdTipoPago { get; set; }
         public string? NombreTipoPago { get; set; }
@@ -16,6 +16,8 @@ namespace Aplicacion.DTOs.Compra
         public decimal? SaldoPendiente { get; set; }
         public string? Observaciones { get; set; }
         public bool EstadoRegistro { get; set; }
+        public string? NumFactura { get; set; }
+        public DateTime FechaCompra { get; set; }
         public List<DetalleCompraDto> Detalles { get; set; } = new();
 
     }
