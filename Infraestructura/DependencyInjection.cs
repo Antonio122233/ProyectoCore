@@ -24,8 +24,6 @@ namespace Infraestructura
             //unidad de trabajo
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            //<IUnitOfWork, UnitOfWork>();
-
             //Registrar otros repositorios
             services.AddScoped<IMarcaRepository, MarcaRepository>();
             services.AddScoped<IProveedorRepository, ProveedorRepository>();

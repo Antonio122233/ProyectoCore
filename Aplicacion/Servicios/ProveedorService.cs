@@ -12,10 +12,12 @@ namespace Aplicacion.Servicios
     public class ProveedorService : IProvedorService
     {
         private readonly IProveedorRepository _repo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProveedorService(IProveedorRepository repo)
+        public ProveedorService(IProveedorRepository repo, IUnitOfWork unitOfWork)
         {
             _repo = repo;
+           _unitOfWork = unitOfWork;
         }
 
         public async Task<ProveedorDto> CreateAsync(ProveedorCreateDto dto)
@@ -30,6 +32,7 @@ namespace Aplicacion.Servicios
             };
 
             await _repo.AddAsync(nuevo);
+            await _unitOfWork.SaveChangesAsync();
 
             return new ProveedorDto
             {
@@ -55,6 +58,7 @@ namespace Aplicacion.Servicios
 
             entidad.EstadoRegistro= false;
             await _repo.UpdateAsync(entidad);
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -137,6 +141,7 @@ namespace Aplicacion.Servicios
             existe.EstadoRegistro = dto.EstadoRegistro;
 
             await _repo.UpdateAsync(existe);
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
     }

@@ -102,7 +102,6 @@ namespace WebApi.Endpoints
 
 
             ////  POST (Crear)
-
             group.MapPost("/", async (ProductoCreateDto dto, IProductoService service) =>
             {
                 var nuevo = await service.CreateAsync(dto);
@@ -121,7 +120,6 @@ namespace WebApi.Endpoints
 
                 if (!actualizado)
                     return Results.NotFound(ApiResponse<object>.Fail("producto no encontrado"));
-
                 return Results.NoContent(); // regresa un 204
             });
 

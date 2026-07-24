@@ -11,9 +11,12 @@ namespace Aplicacion.Servicios
     public class CategoriaService : ICategoriaService
     {
         private readonly ICategoriaRepository _repo;
-        public CategoriaService(ICategoriaRepository repo)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CategoriaService(ICategoriaRepository repo, IUnitOfWork unitOfWork)
         {
             _repo = repo;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<CategoriaDto> CreateAsync(CategoriaCreateDto dto)
@@ -26,10 +29,12 @@ namespace Aplicacion.Servicios
             var nuevo = new TblCategoria
             {
                 Comentario = dto.Comentario,
-                Descripcion = dto.Descripcion
+                Descripcion = dto.Descripcion,
+                EstadoRegistro = true
             };
 
             await _repo.AddAsync(nuevo);
+            await _unitOfWork.SaveChangesAsync();
 
             return new CategoriaDto
             {
@@ -56,6 +61,7 @@ namespace Aplicacion.Servicios
             //lo dejamos inactivo, borrado logico
             entidad.EstadoRegistro = false;
             await _repo.UpdateAsync(entidad);
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -88,7 +94,7 @@ namespace Aplicacion.Servicios
 
         public async Task<CategoriaDto?> GetByIdAsync(int id)
         {
-            if (id<=0)
+            if (id <= 0)
             {
                 throw new ArgumentException("Id no puede ser negativo");
             }
@@ -101,7 +107,7 @@ namespace Aplicacion.Servicios
 
             return new CategoriaDto
             {
-                Comentario = categoria. Comentario,
+                Comentario = categoria.Comentario,
                 Descripcion = categoria.Descripcion,
                 EstadoRegistro = categoria.EstadoRegistro,
                 IdCategoria = categoria.IdCategoria
@@ -143,7 +149,7 @@ namespace Aplicacion.Servicios
                 throw new ArgumentException("Debe enviar los datos a actualizar");
             }
 
-            var existe= await _repo.GetByIdAsync(id);
+            var existe = await _repo.GetByIdAsync(id);
             if (existe is null)
             {
                 return false;
@@ -153,8 +159,9 @@ namespace Aplicacion.Servicios
             existe.EstadoRegistro = dto.EstadoRegistro;
             existe.Comentario = dto.Comentario;
 
-            await _repo.UpdateAsync(existe);            
-            return  true;
+            await _repo.UpdateAsync(existe);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
         }
     }
 }

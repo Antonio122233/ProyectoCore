@@ -18,7 +18,7 @@ namespace Aplicacion.DTOs.Producto
         public decimal Precio { get; set; }
         public int ExistenciaActual { get; set; }
         public int ExistenciaMinima { get; set; }
-        public DateOnly FechaRegistro { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+ 
 
     }
 }

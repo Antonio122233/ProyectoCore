@@ -8,9 +8,11 @@ namespace Aplicacion.Servicios
     public class ProductoService : IProductoService
     {
         private readonly IProductoRepository _repo;
-        public ProductoService(IProductoRepository repo)
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductoService(IProductoRepository repo, IUnitOfWork unitOfWork )
         {
             _repo = repo;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ProductoDto> CreateAsync(ProductoCreateDto dto)
@@ -33,9 +35,11 @@ namespace Aplicacion.Servicios
                 Nombre = dto.Nombre,
                 Precio = dto.Precio,
                 Talla = dto.Talla,
+                FechaRegistro = DateOnly.FromDateTime(DateTime.Now)
             };
 
             await _repo.AddAsync(nuevo);
+            await _unitOfWork.SaveChangesAsync();
 
             return new ProductoDto
             {
@@ -71,6 +75,7 @@ namespace Aplicacion.Servicios
 
             entidad.EstadoRegistro = false;
             await _repo.UpdateAsync(entidad);
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -351,6 +356,7 @@ namespace Aplicacion.Servicios
 
 
             await _repo.UpdateAsync(existe);
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
     }
