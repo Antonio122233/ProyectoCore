@@ -1,7 +1,6 @@
 ﻿using Aplicacion.Interfaces;
 using Aplicacion.Servicios;
 using Microsoft.Extensions.DependencyInjection;
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,8 +18,8 @@ namespace Aplicacion
             services.AddScoped<ITipoPagoService,TipoPagoService>();
             services.AddScoped<ICategoriaService,CategoriaService>();
             services.AddScoped<IProductoService,ProductoService>();
-            
 
+            //me falta agregar compra
             return services;
         }
     }

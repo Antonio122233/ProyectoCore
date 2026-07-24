@@ -11,6 +11,14 @@ namespace WebApi.Endpoints
             var group = app.MapGroup("/api/marca")
                 .WithTags("Marca"); ;
 
+            //  POST (Crear)
+            group.MapPost("/", async (MarcaCreateDto dto, IMarcaService service) =>
+            {
+                var nueva = await service.CreateAsync(dto);
+                return Results.Created($"/api/marca/{nueva.Id}", ApiResponse<MarcaDto>.Ok(nueva, "Marca creada correctamente"));
+            });
+
+
             //GET  ALL : api/marca
             group.MapGet("/", async (IMarcaService service)
                 =>
@@ -41,14 +49,6 @@ namespace WebApi.Endpoints
 
                 return Results.Ok(ApiResponse<MarcaDto>
               .Ok(marca, "Marca encontrada"));
-            });
-
-
-            //  POST (Crear)
-            group.MapPost("/", async (MarcaCreateDto dto, IMarcaService service) =>
-            {
-                var nueva = await service.CreateAsync(dto);
-                return Results.Created($"/api/marca/{nueva.Id}", ApiResponse<MarcaDto>.Ok(nueva, "Marca creada correctamente"));
             });
 
 

@@ -10,10 +10,12 @@ namespace Aplicacion.Servicios
     public class MarcaService : IMarcaService
     {
         private readonly IMarcaRepository _repo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public MarcaService(IMarcaRepository repo)
+        public MarcaService(IMarcaRepository repo, IUnitOfWork unitOfWork)
         {
             _repo = repo;
+            _unitOfWork = unitOfWork;
         }
 
         //Obtener todas
@@ -42,6 +44,7 @@ namespace Aplicacion.Servicios
             };
 
             await _repo.AddAsync(nueva);
+            await _unitOfWork.SaveChangesAsync();
 
             return new MarcaDto
             {
@@ -61,6 +64,24 @@ namespace Aplicacion.Servicios
         //    return true;
         //}
 
+        public async Task<bool> UpdateAsync(int id, MarcaUpdateDto dto)
+        {
+            var existente = await _repo.GetByIdAsync(id);
+            if (existente is null) return false;
+
+            if (string.IsNullOrWhiteSpace(dto.Nombre))
+                throw new ArgumentException("El nombre no puede estar vacío");
+
+            existente.Nombre = dto.Nombre;
+            existente.Descripcion = dto.Descripcion;
+            existente.EstadoRegistro = dto.EstadoRegistro;
+
+            await _repo.UpdateAsync(existente);
+            await _unitOfWork.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             var entidad = await _repo.GetByIdAsync(id);
@@ -73,6 +94,7 @@ namespace Aplicacion.Servicios
 
             entidad.EstadoRegistro =false;
             await _repo.UpdateAsync(entidad);
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -92,23 +114,6 @@ namespace Aplicacion.Servicios
                 Descripcion = marca.Descripcion,
                 EstadoRegistro = marca.EstadoRegistro
             };
-        }
-
-        public async Task<bool> UpdateAsync(int id, MarcaUpdateDto dto)
-        {
-            var existente = await _repo.GetByIdAsync(id);
-            if (existente is null) return false;
-
-            if (string.IsNullOrWhiteSpace(dto.Nombre))
-                throw new ArgumentException("El nombre no puede estar vacío");
-
-            existente.Nombre = dto.Nombre;
-            existente.Descripcion = dto.Descripcion;
-            existente.EstadoRegistro = dto.EstadoRegistro;
-
-            await _repo.UpdateAsync(existente);
-
-            return true;
         }
 
         public async Task<IEnumerable<MarcaDto>> GetActiveAsync()
