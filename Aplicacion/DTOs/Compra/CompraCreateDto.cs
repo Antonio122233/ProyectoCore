@@ -8,10 +8,10 @@ namespace Aplicacion.DTOs.Compra
     {
         public int IdProveedor { get; set; }
         public int IdTipoPago { get; set; }
-        public int MontoPagado { get; set; }
+        public decimal MontoPagado { get; set; }
         public string? Observaciones { get; set; }
         public DateTime FechaCompra { get; set; } = DateTime.Now;
-        public List<DetalleCompraDto> Detalles { get; set; } = new();
+        public List<DetalleCompraCreateDto> Detalles { get; set; } = new();
         public string? NumFactura { get; set; }
     }
 
