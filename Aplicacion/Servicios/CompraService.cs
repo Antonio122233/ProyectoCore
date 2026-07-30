@@ -11,10 +11,14 @@ namespace Aplicacion.Servicios
     public class CompraService : ICompraService
     {
         private readonly ICompraRepository _repo;
+        private readonly IProductoRepository _repProducto;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CompraService(ICompraRepository repo)
+        public CompraService(ICompraRepository repo, IProductoRepository repProducto, IUnitOfWork unitOfWork)
         {
             _repo = repo;
+            _repProducto = repProducto;
+            _unitOfWork = unitOfWork;
         }
 
 
