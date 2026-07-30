@@ -1,6 +1,7 @@
 using Aplicacion;
 using Infraestructura;
 using WebApi.Endpoints;
+using WebApi.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//agregamos los middleware antes de los endpoints
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 //Endpoints
 app.MapMarcaEndpoints();

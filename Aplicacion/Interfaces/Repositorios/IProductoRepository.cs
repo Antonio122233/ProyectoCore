@@ -13,6 +13,7 @@ namespace Aplicacion.Interfaces.Repositorios
         Task<TblProducto?> GetByCategoriaAsync(int idCategoria);
         Task<TblProducto?> GetByMarcaAsync(int idMarca);
         Task<IEnumerable<TblProducto>> ObtenerProductosStockBajoAsync();
-        Task<TblProducto?> SearchByCodigoAsync(string codigo);       
+        Task<TblProducto?> SearchByCodigoAsync(string codigo);
+        Task<IEnumerable<TblProducto>> GetByIdsAsync(IEnumerable<int>ids);
     }
 }

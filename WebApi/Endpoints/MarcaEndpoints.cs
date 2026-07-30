@@ -15,7 +15,7 @@ namespace WebApi.Endpoints
             group.MapPost("/", async (MarcaCreateDto dto, IMarcaService service) =>
             {
                 var nueva = await service.CreateAsync(dto);
-                return Results.Created($"/api/marca/{nueva.Id}", ApiResponse<MarcaDto>.Ok(nueva, "Marca creada correctamente"));
+                return Results.Created($"/api/marca/{nueva.Id}", ApiResponse<MarcaDto>.Ok(nueva, "Marca creada correctamente"));              
             });
 
 

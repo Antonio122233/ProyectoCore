@@ -3,6 +3,7 @@ using Aplicacion.DTOs.TipoPago;
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
 using Dominio.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Aplicacion.Servicios
 {
@@ -33,8 +34,8 @@ namespace Aplicacion.Servicios
 
         public async Task<MarcaDto> CreateAsync(MarcaCreateDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Nombre))
-                throw new ArgumentException("El nombre es obligatorio");
+            if (string.IsNullOrWhiteSpace(dto.Nombre))                
+                throw new Exception("ERROR_DE_VALIDACION: El nombre de la marca es obligatorio");
 
             var nueva = new TblMarca
             {
@@ -70,7 +71,7 @@ namespace Aplicacion.Servicios
             if (existente is null) return false;
 
             if (string.IsNullOrWhiteSpace(dto.Nombre))
-                throw new ArgumentException("El nombre no puede estar vacío");
+                throw new Exception("ERROR_DE_VALIDACION: El nombre de la marca es obligatorio");
 
             existente.Nombre = dto.Nombre;
             existente.Descripcion = dto.Descripcion;
@@ -101,7 +102,8 @@ namespace Aplicacion.Servicios
         public async Task<MarcaDto?> GetByIdAsync(int id)
         {
             if (id <= 0)
-                throw new ArgumentException("ID inválido");
+                throw new ArgumentException("ID inválido");                
+
             var marca = await _repo.GetByIdAsync(id);
 
             if (marca is null) return null;

@@ -21,6 +21,87 @@ namespace Aplicacion.Servicios
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Crea una compra
+        /// </summary>
+        /// <param name="dto">CompraCreateDto</param>
+        /// <returns>CompraDto</returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<CompraDto> CreateAsync(CompraCreateDto dto)
+        {
+            //validaciones                        
+            try
+            {
+                decimal totalCompra = 0;
+                var detallesCompra = new List<TblDetalleCompra>();               
+
+                await _unitOfWork.BeginTransactionAsync();
+
+                var idsProductos = dto.Detalles.
+                    Select(x => x.IdProducto).Distinct().ToList();
+
+                var productos = (await _repProducto.GetByIdsAsync(idsProductos)).ToList();
+
+                if (!productos.Any())
+                {
+                    throw new Exception("ERROR_DE_VALIDACION: Debe enviar los productos");
+                }
+
+                if (productos.Count() != idsProductos.Count() ) 
+                {
+                    throw new Exception("ERROR_DE_VALIDACION: Uno o más productos no existen");
+                }
+
+                foreach (var detalle in dto.Detalles)
+                {
+                    var producto = productos.First(x => x.IdProducto == detalle.IdProducto);
+                    var subtotal = detalle.Cantidad * detalle.PrecioCompra;
+                    totalCompra = totalCompra + subtotal;
+                    detallesCompra.Add(new()
+                    {
+                        IdProducto = detalle.IdProducto,
+                        PrecioCompra = detalle.PrecioCompra,
+                        Cantidad = detalle.Cantidad,
+                        Subtotal = subtotal,
+                        EstadoRegistro = true
+                    });
+                    producto.ExistenciaActual = producto.ExistenciaActual + detalle.Cantidad;                  
+                }
+
+                foreach (var produto in productos)
+                {
+                    await _repProducto.UpdateAsync(produto);
+                }
+
+                var compra =new TblCompra
+                {
+                    IdProveedor = dto.IdProveedor,
+                    IdTipoPago = dto.IdTipoPago,
+                    NumFactura = dto.NumFactura,
+                    Observaciones = dto.Observaciones,
+                    FechaCompra = dto.FechaCompra,
+                    EstadoRegistro = true,
+                    TotalCompra = totalCompra,
+
+                    TblDetalleCompras = detallesCompra
+                };
+
+                //Procesar detalles
+                //Calcular total
+                //Crear Compra
+                //Actualizar stock
+                //Guardar Compra
+                await _repo.AddAsync(compra);
+                await _unitOfWork.CommitTransactionAsync();
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                throw;
+            }
+
+            return null!;
+        }
 
         public async Task<IEnumerable<CompraDto>> GetByFechaAsync(DateTime fecha)
         {
@@ -93,8 +174,8 @@ namespace Aplicacion.Servicios
                 EstadoRegistro = compra.EstadoRegistro,
                 NombreProveedor = compra.IdProveedorNavigation?.Nombre,
                 NombreTipoPago = compra.IdTipoPagoNavigation?.Descripcion,
-                Detalles = compra.TblDetalleCompras.Select (
-                    y=> new DetalleCompraDto
+                Detalles = compra.TblDetalleCompras.Select(
+                    y => new DetalleCompraDto
                     {
                         Cantidad = y.Cantidad,
                         EstadoRegistro = y.EstadoRegistro,
@@ -105,23 +186,6 @@ namespace Aplicacion.Servicios
                     }).ToList()
             };
         }
-
-        public async Task<CompraDto> CreateAsync(CompraCreateDto dto)
-        {
-            var nueva = new TblCompra
-            {
-                IdProveedor = dto.IdProveedor,
-                IdTipoPago = dto.IdTipoPago,
-                NumFactura = dto.NumFactura,                                      
-                Observaciones = dto.Observaciones,
-                FechaCompra = dto.FechaCompra,
-                EstadoRegistro = true,                                                 
-            };
-
-            await _repo.AddAsync(nueva);
-            return null;
-        }
-
         public Task<bool> DeleteAsync(int id)
         {
             throw new NotImplementedException();

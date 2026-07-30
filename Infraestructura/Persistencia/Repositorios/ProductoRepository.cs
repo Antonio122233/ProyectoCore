@@ -43,6 +43,12 @@ namespace Infraestructura.Persistencia.Repositorios
         public async Task<TblProducto?> SearchByCodigoAsync(string codigo)
         {
             return await _dbSet.FirstOrDefaultAsync(x => x.CodigoProducto == codigo);
-        }     
+        }
+
+        public async Task<IEnumerable<TblProducto>> GetByIdsAsync(IEnumerable<int> ids)
+        {
+            return await _dbSet.Where(x => ids.Contains(x.IdProducto))
+                  .ToListAsync();
+        }
     }
 }
