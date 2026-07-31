@@ -29,12 +29,19 @@ namespace Aplicacion.Servicios
         /// <exception cref="NotImplementedException"></exception>
         public async Task<CompraDto> CreateAsync(CompraCreateDto dto)
         {
-            //validaciones                        
+            TblCompra? compra = null;
+            var detallesCompra = new List<TblDetalleCompra>();
+
+            if (dto.Detalles == null || !dto.Detalles.Any())
+            {
+                throw new Exception(
+                    "ERROR_DE_VALIDACION: Debe agregar al menos un producto");
+            }
+
+
             try
             {
-                decimal totalCompra = 0;
-                var detallesCompra = new List<TblDetalleCompra>();               
-
+                decimal totalCompra = 0;               
                 await _unitOfWork.BeginTransactionAsync();
 
                 var idsProductos = dto.Detalles.
@@ -73,7 +80,7 @@ namespace Aplicacion.Servicios
                     await _repProducto.UpdateAsync(produto);
                 }
 
-                var compra =new TblCompra
+                compra =new TblCompra
                 {
                     IdProveedor = dto.IdProveedor,
                     IdTipoPago = dto.IdTipoPago,
@@ -85,22 +92,37 @@ namespace Aplicacion.Servicios
 
                     TblDetalleCompras = detallesCompra
                 };
-
-                //Procesar detalles
-                //Calcular total
-                //Crear Compra
-                //Actualizar stock
-                //Guardar Compra
+              
                 await _repo.AddAsync(compra);
                 await _unitOfWork.CommitTransactionAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await _unitOfWork.RollbackTransactionAsync();
                 throw;
             }
 
-            return null!;
+            return new CompraDto
+            {
+                IdCompra = compra.IdCompra,
+                IdProveedor = compra.IdProveedor,
+                IdTipoPago = compra.IdTipoPago,
+                NumFactura = compra.NumFactura,
+                Observaciones = compra.Observaciones,
+                FechaCompra = compra.FechaCompra,
+                EstadoRegistro = compra.EstadoRegistro,
+                TotalCompra = compra.TotalCompra,
+
+                Detalles = detallesCompra.Select(x => new DetalleCompraDto
+                {
+                    IdProducto = x.IdProducto,
+                    PrecioCompra = x.PrecioCompra,
+                    Cantidad = x.Cantidad,
+                    Subtotal = x.Subtotal,
+                    EstadoRegistro = x.EstadoRegistro
+                }).ToList()
+            };
+
         }
 
         public async Task<IEnumerable<CompraDto>> GetByFechaAsync(DateTime fecha)
