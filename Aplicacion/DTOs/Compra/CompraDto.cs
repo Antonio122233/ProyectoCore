@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Aplicacion.DTOs.Compra
 {
@@ -12,11 +13,12 @@ namespace Aplicacion.DTOs.Compra
         public int IdTipoPago { get; set; }
         public string? NombreTipoPago { get; set; }
         public decimal TotalCompra { get; set; }
-        public decimal? MontoPagado { get; set; } = 0;
-        public decimal? SaldoPendiente { get; set; }
+        //public decimal? MontoPagado { get; set; } = 0;
+        //public decimal? SaldoPendiente { get; set; }
         public string? Observaciones { get; set; }
         public bool EstadoRegistro { get; set; }
         public string? NumFactura { get; set; }
+        [JsonIgnore]
         public DateTime FechaCompra { get; set; }
         public List<DetalleCompraDto> Detalles { get; set; } = new();
 

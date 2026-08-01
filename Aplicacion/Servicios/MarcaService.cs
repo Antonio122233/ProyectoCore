@@ -2,6 +2,7 @@
 using Aplicacion.DTOs.TipoPago;
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
+using Aplicacion.Interfaces.Servicios;
 using Dominio.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -19,29 +20,17 @@ namespace Aplicacion.Servicios
             _unitOfWork = unitOfWork;
         }
 
-        //Obtener todas
-        public async Task<IEnumerable<MarcaDto>> GetAllAsync()
-        {
-            var marcas = await _repo.GetAllAsync();
-            return marcas.Select(m => new MarcaDto
-            {
-                Id = m.IdMarca,
-                Nombre = m.Nombre,
-                Descripcion = m.Descripcion,
-                EstadoRegistro = m.EstadoRegistro
-            });
-        }
-
+        //crear marca
         public async Task<MarcaDto> CreateAsync(MarcaCreateDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.Nombre))                
+            if (string.IsNullOrWhiteSpace(dto.Nombre))
                 throw new Exception("ERROR_DE_VALIDACION: El nombre de la marca es obligatorio");
 
             var nueva = new TblMarca
             {
                 Nombre = dto.Nombre,
                 Descripcion = dto.Descripcion,
-                EstadoRegistro  = true
+                EstadoRegistro = true
             };
 
             await _repo.AddAsync(nueva);
@@ -56,6 +45,39 @@ namespace Aplicacion.Servicios
             };
         }
 
+        //obtener por id
+        public async Task<MarcaDto?> GetByIdAsync(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("ID inválido");
+
+            var marca = await _repo.GetByIdAsync(id);
+
+            if (marca is null) return null;
+
+            return new MarcaDto
+
+            {
+                Id = marca.IdMarca,
+                Nombre = marca.Nombre,
+                Descripcion = marca.Descripcion,
+                EstadoRegistro = marca.EstadoRegistro
+            };
+        }
+
+        //Obtener todas
+        public async Task<IEnumerable<MarcaDto>> GetAllAsync()
+        {
+            var marcas = await _repo.GetAllAsync();
+            return marcas.Select(m => new MarcaDto
+            {
+                Id = m.IdMarca,
+                Nombre = m.Nombre,
+                Descripcion = m.Descripcion,
+                EstadoRegistro = m.EstadoRegistro
+            });
+        }
+      
         //public async Task<bool> DeleteAsync(int id)
         //{
         //    var entidad = await _repo.GetByIdAsync(id);
@@ -97,26 +119,7 @@ namespace Aplicacion.Servicios
             await _repo.UpdateAsync(entidad);
             await _unitOfWork.SaveChangesAsync();
             return true;
-        }
-
-        public async Task<MarcaDto?> GetByIdAsync(int id)
-        {
-            if (id <= 0)
-                throw new ArgumentException("ID inválido");                
-
-            var marca = await _repo.GetByIdAsync(id);
-
-            if (marca is null) return null;
-
-            return new MarcaDto
-
-            {
-                Id = marca.IdMarca,
-                Nombre = marca.Nombre,
-                Descripcion = marca.Descripcion,
-                EstadoRegistro = marca.EstadoRegistro
-            };
-        }
+        }      
 
         public async Task<IEnumerable<MarcaDto>> GetActiveAsync()
         {

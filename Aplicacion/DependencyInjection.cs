@@ -1,4 +1,4 @@
-﻿using Aplicacion.Interfaces;
+﻿using Aplicacion.Interfaces.Servicios;
 using Aplicacion.Servicios;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,6 +18,7 @@ namespace Aplicacion
             services.AddScoped<ITipoPagoService,TipoPagoService>();
             services.AddScoped<ICategoriaService,CategoriaService>();
             services.AddScoped<IProductoService,ProductoService>();
+            services.AddScoped<ICompraService,CompraService>();
 
             //me falta agregar compra
             return services;

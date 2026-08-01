@@ -2,7 +2,7 @@
 using Aplicacion.DTOs.Categoria;
 using Aplicacion.DTOs.Proveedor;
 using Aplicacion.DTOs.TipoPago;
-using Aplicacion.Interfaces;
+using Aplicacion.Interfaces.Servicios;
 
 namespace WebApi.Endpoints
 {

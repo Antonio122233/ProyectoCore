@@ -1,6 +1,7 @@
 ﻿using Aplicacion.DTOs.Producto;
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
+using Aplicacion.Interfaces.Servicios;
 using Dominio.Models;
 
 namespace Aplicacion.Servicios

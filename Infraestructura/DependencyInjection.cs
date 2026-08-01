@@ -27,14 +27,12 @@ namespace Infraestructura
             //Registrar otros repositorios
             services.AddScoped<IMarcaRepository, MarcaRepository>();
             services.AddScoped<IProveedorRepository, ProveedorRepository>();
-            services.AddScoped(typeof(ITipoPagoRepository),typeof(TipoPagoRepository));
+            services.AddScoped(typeof(ITipoPagoRepository), typeof(TipoPagoRepository));
             services.AddScoped(typeof(ICategoriaRepository), typeof(CategoriaRepository));
             services.AddScoped(typeof(IProductoRepository), typeof(ProductoRepository));
-
-           
-
+            services.AddScoped<ICompraRepository, CompraRepository>();
 
             return services;
-        }        
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Aplicacion.DTOs.Compra;
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
+using Aplicacion.Interfaces.Servicios;
 using Dominio.Models;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,17 @@ namespace Aplicacion.Servicios
         private readonly ICompraRepository _repo;
         private readonly IProductoRepository _repProducto;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProveedorRepository _repProveedor;
+        private readonly ITipoPagoRepository _repTipoPago;
 
-        public CompraService(ICompraRepository repo, IProductoRepository repProducto, IUnitOfWork unitOfWork)
+        public CompraService(ICompraRepository repo, IProductoRepository repProducto, IUnitOfWork unitOfWork, IProveedorRepository repProveedor,
+            ITipoPagoRepository repTipoPago)
         {
             _repo = repo;
             _repProducto = repProducto;
             _unitOfWork = unitOfWork;
+            _repProveedor = repProveedor;
+            _repTipoPago = repTipoPago;
         }
 
         /// <summary>
@@ -38,10 +44,20 @@ namespace Aplicacion.Servicios
                     "ERROR_DE_VALIDACION: Debe agregar al menos un producto");
             }
 
+            //validamos el proveedor
+            var proveedor = await _repProveedor.GetByIdAsync(dto.IdProveedor);
+            if (proveedor is null)
+            {
+                throw new Exception("ERROR_DE_VALIDACION: El proveedor no existe");
+            }
+
+            var tipoPago = await _repTipoPago.GetByIdAsync(dto.IdTipoPago);
+            if (tipoPago is null)
+                throw new Exception("ERROR_DE_VALIDACION: El tipo de pago no existe");
 
             try
             {
-                decimal totalCompra = 0;               
+                decimal totalCompra = 0;
                 await _unitOfWork.BeginTransactionAsync();
 
                 var idsProductos = dto.Detalles.
@@ -54,7 +70,7 @@ namespace Aplicacion.Servicios
                     throw new Exception("ERROR_DE_VALIDACION: Debe enviar los productos");
                 }
 
-                if (productos.Count() != idsProductos.Count() ) 
+                if (productos.Count() != idsProductos.Count())
                 {
                     throw new Exception("ERROR_DE_VALIDACION: Uno o más productos no existen");
                 }
@@ -72,7 +88,7 @@ namespace Aplicacion.Servicios
                         Subtotal = subtotal,
                         EstadoRegistro = true
                     });
-                    producto.ExistenciaActual = producto.ExistenciaActual + detalle.Cantidad;                  
+                    producto.ExistenciaActual = producto.ExistenciaActual + detalle.Cantidad;
                 }
 
                 foreach (var produto in productos)
@@ -80,26 +96,25 @@ namespace Aplicacion.Servicios
                     await _repProducto.UpdateAsync(produto);
                 }
 
-                compra =new TblCompra
+                compra = new TblCompra
                 {
                     IdProveedor = dto.IdProveedor,
                     IdTipoPago = dto.IdTipoPago,
                     NumFactura = dto.NumFactura,
                     Observaciones = dto.Observaciones,
-                    FechaCompra = dto.FechaCompra,
+                    FechaCompra = DateTime.Today,
                     EstadoRegistro = true,
                     TotalCompra = totalCompra,
-
                     TblDetalleCompras = detallesCompra
                 };
-              
+
                 await _repo.AddAsync(compra);
                 await _unitOfWork.CommitTransactionAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                throw;
+                throw new Exception($"INTERNAL_ERROR:{ex.InnerException?.Message ?? ex.Message}");
             }
 
             return new CompraDto
@@ -112,6 +127,8 @@ namespace Aplicacion.Servicios
                 FechaCompra = compra.FechaCompra,
                 EstadoRegistro = compra.EstadoRegistro,
                 TotalCompra = compra.TotalCompra,
+                NombreProveedor = $"{proveedor.IdProveedor}-{proveedor.Nombre}",
+                NombreTipoPago = $"{tipoPago.Nombre}-{tipoPago.Nombre}",
 
                 Detalles = detallesCompra.Select(x => new DetalleCompraDto
                 {

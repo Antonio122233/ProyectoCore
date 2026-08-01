@@ -1,6 +1,7 @@
 ﻿using Aplicacion.DTOs.Categoria;
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
+using Aplicacion.Interfaces.Servicios;
 using Dominio.Models;
 using System;
 using System.Collections.Generic;

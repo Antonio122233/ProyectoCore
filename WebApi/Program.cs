@@ -42,5 +42,6 @@ app.MapProveedorEndpoints();
 app.MapTipoPagoEndpoints();
 app.MapCategoriaEnpoint();
 app.MapProductoEnpoint();
+app.MapCompraEndpoints();
 
 app.Run();

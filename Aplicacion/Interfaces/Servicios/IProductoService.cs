@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Aplicacion.Interfaces
+namespace Aplicacion.Interfaces.Servicios
 {
     public interface  IProductoService
     {
