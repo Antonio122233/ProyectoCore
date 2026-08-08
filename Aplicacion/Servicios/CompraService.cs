@@ -170,7 +170,7 @@ namespace Aplicacion.Servicios
         public async Task<IEnumerable<CompraDto>> GetByProveedorAsync(int idProveedor)
         {
             var compras = await _repo.GetByProveedor(idProveedor);
-            if (compras is null) return null;
+            if (compras == null) return null;
             if (!compras.Any()) return null;
 
             return compras.Select(
@@ -201,33 +201,66 @@ namespace Aplicacion.Servicios
 
         public async Task<CompraDto?> GetByIdAsync(int id)
         {
-            var compra = await _repo.GetByIdAsync(id);
-            if (compra is null) return null;
-            return new CompraDto
+            var compra = await _repo.GetCompraCompletaAsync(id);
+            if (compra is null)
+                return null;
+
+            return new()
             {
                 IdCompra = compra.IdCompra,
                 IdProveedor = compra.IdProveedor,
+                NombreProveedor = $"{compra.IdProveedor}--{compra.IdProveedorNavigation?.Nombre}",
+                IdTipoPago = compra.IdTipoPago,
+                NombreTipoPago = $"{compra.IdTipoPago}--{compra.IdTipoPagoNavigation?.Nombre}",
                 NumFactura = compra.NumFactura,
-                TotalCompra = compra.TotalCompra,
+                Observaciones = compra.Observaciones,
                 FechaCompra = compra.FechaCompra,
                 EstadoRegistro = compra.EstadoRegistro,
-                NombreProveedor = compra.IdProveedorNavigation?.Nombre,
-                NombreTipoPago = compra.IdTipoPagoNavigation?.Descripcion,
-                Detalles = compra.TblDetalleCompras.Select(
-                    y => new DetalleCompraDto
-                    {
-                        Cantidad = y.Cantidad,
-                        EstadoRegistro = y.EstadoRegistro,
-                        IdProducto = y.IdProducto,
-                        PrecioCompra = y.PrecioCompra,
-                        Subtotal = y.Subtotal
+                TotalCompra = compra.TotalCompra,
+                Detalles = compra.TblDetalleCompras
+                .Select(y => new DetalleCompraDto
+                {
+                    Cantidad = y.Cantidad,
+                    EstadoRegistro = y.EstadoRegistro,
+                    IdProducto = y.IdProducto,
+                    PrecioCompra = y.PrecioCompra,
+                    Subtotal = y.Subtotal
 
-                    }).ToList()
+                }).ToList()
             };
         }
         public Task<bool> DeleteAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<CompraDto>> ObtenerComprasCompletas()
+        {
+            var compras = await _repo.GetComprasCompletasAsync();            
+            return compras.Select(compra => new CompraDto
+            {
+                IdCompra = compra.IdCompra,
+                IdProveedor = compra.IdProveedor,
+                NombreProveedor = $"{compra.IdProveedor}--{compra.IdProveedorNavigation?.Nombre}",
+                IdTipoPago = compra.IdTipoPago,
+                NombreTipoPago = $"{compra.IdTipoPago}--{compra.IdTipoPagoNavigation?.Nombre}",
+                NumFactura = compra.NumFactura,
+                Observaciones = compra.Observaciones,
+                FechaCompra = compra.FechaCompra,
+                EstadoRegistro = compra.EstadoRegistro,
+                TotalCompra = compra.TotalCompra,
+                Detalles = compra.TblDetalleCompras
+                .Select(y => new DetalleCompraDto
+                {
+                    Cantidad = y.Cantidad,
+                    EstadoRegistro = y.EstadoRegistro,
+                    IdProducto = y.IdProducto,
+                    PrecioCompra = y.PrecioCompra,
+                    Subtotal = y.Subtotal
+
+                }).ToList()
+            });
+
         }
     }
 }

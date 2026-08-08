@@ -12,5 +12,6 @@ namespace Aplicacion.Interfaces.Servicios
         Task<CompraDto> CreateAsync(CompraCreateDto dto);
         Task<bool> DeleteAsync(int id);
         Task<CompraDto?> GetByIdAsync(int id);
+        Task<IEnumerable<CompraDto>> ObtenerComprasCompletas();
     }
 }

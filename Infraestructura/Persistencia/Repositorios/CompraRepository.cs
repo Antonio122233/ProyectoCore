@@ -37,5 +37,28 @@ namespace Infraestructura.Persistencia.Repositorios
                .TagWith("--OBTENER COMPRAS POR PROVEEDOR")
                .ToListAsync();
         }
+
+        public async Task<TblCompra?> GetCompraCompletaAsync(int id)
+        {
+            return await _dbSet.
+                 AsNoTracking().
+                 TagWith("OBTENER COMPRA POR ID DE COMPRA")
+                 .Include(x => x.IdProveedorNavigation)
+                 .Include(x => x.IdTipoPagoNavigation)
+                 .Include(x => x.TblDetalleCompras)
+                 .FirstOrDefaultAsync(x => x.IdCompra == id);
+        }
+
+        public async Task<IEnumerable<TblCompra>> GetComprasCompletasAsync()
+        {
+            return await _dbSet
+                 .AsNoTracking().
+                 TagWith("OBTENER TODAS LAS COMPRAS")
+                 .Include(x => x.IdProveedorNavigation)
+                 .Include(x => x.IdTipoPagoNavigation)
+                 .Include(x => x.TblDetalleCompras)              
+                  .OrderByDescending(x => x.IdCompra)
+                  .ToListAsync();
+        }
     }
 }

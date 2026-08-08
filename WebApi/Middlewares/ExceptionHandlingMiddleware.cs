@@ -38,6 +38,7 @@ namespace WebApi.Middlewares
                     statusCode = code;
                 }
             }
+           
 
             if (ex.Message.StartsWith("ERROR_DE_VALIDACION"))
             {
@@ -51,6 +52,12 @@ namespace WebApi.Middlewares
                 statusCode = 500;
                 message = ex.Message.Replace("INTERNAL_ERROR", "").Trim();
                 type = "INTERNAL_ERROR";
+            }
+
+            else if (ex is KeyNotFoundException)
+            {
+                statusCode = 404;
+                message = ex.Message;
             }
 
             else

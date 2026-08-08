@@ -10,5 +10,7 @@ namespace Aplicacion.Interfaces.Repositorios
         //sino hay resultados se devuelve una lista vacia
         Task<IEnumerable<TblCompra>> GetByFechaAsync(DateTime Fecha);
         Task<IEnumerable<TblCompra>> GetByProveedor(int idProveedor);
+        Task<TblCompra?> GetCompraCompletaAsync(int id);
+        Task<IEnumerable<TblCompra>> GetComprasCompletasAsync();
     }
 }
