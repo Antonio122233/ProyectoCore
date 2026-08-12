@@ -102,7 +102,7 @@ namespace Aplicacion.Servicios
                     IdTipoPago = dto.IdTipoPago,
                     NumFactura = dto.NumFactura,
                     Observaciones = dto.Observaciones,
-                    FechaCompra = DateTime.Today,
+                    FechaCompra = DateTime.Now,
                     EstadoRegistro = true,
                     TotalCompra = totalCompra,
                     TblDetalleCompras = detallesCompra
@@ -128,7 +128,7 @@ namespace Aplicacion.Servicios
                 EstadoRegistro = compra.EstadoRegistro,
                 TotalCompra = compra.TotalCompra,
                 NombreProveedor = $"{proveedor.IdProveedor}-{proveedor.Nombre}",
-                NombreTipoPago = $"{tipoPago.Nombre}-{tipoPago.Nombre}",
+                NombreTipoPago = $"{tipoPago.IdTipoPago}-{tipoPago.Nombre}",
 
                 Detalles = detallesCompra.Select(x => new DetalleCompraDto
                 {
