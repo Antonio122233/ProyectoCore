@@ -17,5 +17,9 @@ namespace Aplicacion.DTOs.Venta
         public DateTime FechaVenta { get; set; }
         public bool EstadoRegistro { get; set; }
         public List<DetalleVentaDto> Detalles { get; set; } = new();
+
+        public string EstadoPago { get; set; } = "";
+
+
     }
 }

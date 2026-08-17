@@ -30,7 +30,9 @@ namespace Infraestructura
             services.AddScoped(typeof(ITipoPagoRepository), typeof(TipoPagoRepository));
             services.AddScoped(typeof(ICategoriaRepository), typeof(CategoriaRepository));
             services.AddScoped(typeof(IProductoRepository), typeof(ProductoRepository));
+            services.AddScoped<IVentaRepository, VentaRepository>();
             services.AddScoped<ICompraRepository, CompraRepository>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
 
             return services;
         }
