@@ -7,6 +7,7 @@ namespace Aplicacion.Interfaces.Repositorios
 {
     public interface IVentaRepository : IGenericRepository<TblVenta>
     {
-
+        Task<TblVenta?> GetVentaCompletaAsync(int id);
+        Task<IEnumerable<TblVenta>> GetVentasCompletasAsync();
     }
 }

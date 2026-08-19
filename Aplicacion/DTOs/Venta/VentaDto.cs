@@ -20,6 +20,8 @@ namespace Aplicacion.DTOs.Venta
 
         public string EstadoPago { get; set; } = "";
 
+        public decimal? SaldoPendiente { get; set; }
+
 
     }
 }

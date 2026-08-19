@@ -8,5 +8,7 @@ namespace Aplicacion.Interfaces.Servicios
     public interface IVentaService
     {
         Task<VentaDto> CreateAsync(VentaCreateDto dto);
+        Task<VentaDto?> GetByIdAsync(int id);
+        Task<IEnumerable<VentaDto>> GetAllAsync();
     }
 }

@@ -21,7 +21,37 @@ namespace WebApi.Endpoints
                 return Results.Created($"/api/venta/{venta.IdVenta}", ApiResponse<VentaDto>.Ok(venta,"Venta creada correctamente"));
             });
 
+
+
+            //obtener todas
+            grupo.MapGet("/", async ( IVentaService service) =>
+            {
+                var ventas =
+                    await service.GetAllAsync();
+
+                return Results.Ok(
+                    ApiResponse<IEnumerable<VentaDto>>.Ok(
+                        ventas,
+                        "Listado de ventas"));
+            });
+
+
+            //obtener por id
+            grupo.MapGet("/{id:int}", async (int id, IVentaService service) =>
+            {
+                var venta =
+                    await service.GetByIdAsync(id);
+
+                return Results.Ok(
+                    ApiResponse<VentaDto>.Ok(
+                        venta,
+                        "Venta encontrada correctamente"));
+            });
+
             return app;
         }
+
+
+
     }
 }

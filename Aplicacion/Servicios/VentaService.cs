@@ -185,5 +185,103 @@ namespace Aplicacion.Servicios
             }           
         }
 
+
+        public async Task<VentaDto?> GetByIdAsync(int id)
+        {
+            var venta = await _repo.GetVentaCompletaAsync(id);
+
+            if (venta == null)
+            {
+                throw new KeyNotFoundException(
+                    "La venta no existe");
+            }
+
+            return new VentaDto
+            {
+                IdVenta = venta.IdVenta,
+
+                IdCliente = venta.IdCliente,
+
+                NombreCliente =
+                    $"{venta.IdClienteNavigation.Nombre} {venta.IdClienteNavigation.Apellido}".Trim(),
+
+                IdTipoPago = venta.IdTipoPago,
+
+                NombreTipoPago =
+                    venta.IdTipoPagoNavigation?.Nombre,
+
+                TipoVenta = venta.TipoVenta,
+
+                TotalVenta = venta.TotalVenta,
+
+                MontoPagado = venta.MontoPagado,
+
+                SaldoPendiente = venta.SaldoPendiente,
+
+                EstadoPago = venta.EstadoPago,
+
+                FechaVenta = venta.FechaVenta,
+
+                EstadoRegistro = venta.EstadoRegistro,
+
+                Detalles = venta.TblDetalleVenta
+                    .Select(x => new DetalleVentaDto
+                    {
+                        IdProducto = x.IdProducto,
+                        Cantidad = x.Cantidad,
+                        PrecioVenta = x.PrecioVenta,
+                        SubTotal = x.SubTotal,
+                        EstadoRegistro = x.EstadoRegistro
+                    })
+                    .ToList()
+            };
+        }
+
+        public async Task<IEnumerable<VentaDto>> GetAllAsync()
+        {
+            var ventas =
+                await _repo.GetVentasCompletasAsync();
+
+            return ventas.Select(venta => new VentaDto
+            {
+                IdVenta = venta.IdVenta,
+
+                IdCliente = venta.IdCliente,
+
+                NombreCliente =
+                    $"{venta.IdClienteNavigation.Nombre} {venta.IdClienteNavigation.Apellido}".Trim(),
+
+                IdTipoPago = venta.IdTipoPago,
+
+                NombreTipoPago =
+                    venta.IdTipoPagoNavigation?.Nombre,
+
+                TipoVenta = venta.TipoVenta,
+
+                TotalVenta = venta.TotalVenta,
+
+                MontoPagado = venta.MontoPagado,
+
+                SaldoPendiente = venta.SaldoPendiente,
+
+                EstadoPago = venta.EstadoPago,
+
+                FechaVenta = venta.FechaVenta,
+
+                EstadoRegistro = venta.EstadoRegistro,
+
+                Detalles = venta.TblDetalleVenta
+                    .Select(x => new DetalleVentaDto
+                    {
+                        IdProducto = x.IdProducto,
+                        Cantidad = x.Cantidad,
+                        PrecioVenta = x.PrecioVenta,
+                        SubTotal = x.SubTotal,
+                        EstadoRegistro = x.EstadoRegistro
+                    })
+                    .ToList()
+            });
+        }
+
     }
 }
