@@ -2,6 +2,7 @@
 using Aplicacion.Interfaces;
 using Aplicacion.Interfaces.Repositorios;
 using Aplicacion.Interfaces.Servicios;
+using Dominio.Enums;
 using Dominio.Models;
 using System;
 using System.Collections.Generic;
@@ -121,7 +122,7 @@ namespace Aplicacion.Servicios
                 {
                     IdCliente = dto.IdCliente,
 
-                    TipoVenta = "CONTADO",
+                    TipoVenta = TipoVenta.CONTADO.ToString(),
 
                     TotalVenta = totalVenta,
 
@@ -129,7 +130,7 @@ namespace Aplicacion.Servicios
 
                     IdTipoPago = dto.IdTipoPago,
 
-                    EstadoPago = "PAGADO",
+                    EstadoPago = EstadoPago.PAGADO.ToString(),
 
                     FechaVenta = DateTime.Now,
 
