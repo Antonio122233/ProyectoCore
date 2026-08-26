@@ -33,6 +33,8 @@ namespace Infraestructura
             services.AddScoped<IVentaRepository, VentaRepository>();
             services.AddScoped<ICompraRepository, CompraRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IAbonoRepository, AbonoRepository>();
+
 
             return services;
         }

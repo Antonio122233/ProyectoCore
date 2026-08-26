@@ -21,6 +21,7 @@ namespace Aplicacion
             services.AddScoped<ICompraService,CompraService>();
             services.AddScoped<IVentaService, VentaService>();
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IAbonoService, AbonoService>();
 
             //me falta agregar compra
             return services;

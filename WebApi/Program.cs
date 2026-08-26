@@ -1,5 +1,6 @@
 using Aplicacion;
 using Infraestructura;
+using System.Text.Json.Serialization;
 using WebApi.Endpoints;
 using WebApi.Middlewares;
 
@@ -18,6 +19,15 @@ builder.Services.
     AddInfrastructure(
     builder.Configuration.GetConnectionString("BdTienda")!
 );
+
+
+//permitir enviar valores de enum como string.
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(
+        new JsonStringEnumConverter());
+});
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -27,7 +37,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    
+
     app.MapOpenApi();
 }
 
@@ -45,5 +55,6 @@ app.MapProductoEnpoint();
 app.MapCompraEndpoints();
 app.MapVentaEndpoint();
 app.MapClienteEndpoints();
+app.MapAbonoEndpoints();
 
 app.Run();

@@ -13,27 +13,27 @@ namespace Aplicacion.Servicios
     public class VentaService : IVentaService
     {
         private readonly IVentaRepository _repo;
-       
+
         private readonly ITipoPagoRepository _repoTipoPago;
         private readonly IProductoRepository _repoProducto;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IClienteRepository _repoCliente;
 
         public VentaService(IVentaRepository repo,
-      
+
         ITipoPagoRepository repoTipoPago,
         IProductoRepository repoProducto,
         IClienteRepository repoCliente,
         IUnitOfWork unitOfWork)
         {
-            _repo = repo;            
+            _repo = repo;
             _repoTipoPago = repoTipoPago;
             _repoProducto = repoProducto;
             _unitOfWork = unitOfWork;
             _repoCliente = repoCliente;
         }
 
-        public async Task<VentaDto> CreateAsync (VentaCreateDto dto)
+        public async Task<VentaDto> CreateAsync(VentaCreateDto dto)
         {
             TblVenta? venta = null;
             var detallesVenta = new List<TblDetalleVenta>();
@@ -44,17 +44,27 @@ namespace Aplicacion.Servicios
                     "ERROR_DE_VALIDACION: Debe agregar al menos un producto");
             }
 
-            var tipoPago = await _repoTipoPago.GetByIdAsync(Convert.ToInt32(dto.IdTipoPago));
-            if (tipoPago == null )
+
+            TblTipoPago? tipoPago = null;
+
+            if (dto.TipoVenta == TipoVenta.CONTADO)
             {
-                throw new Exception("ERROR_DE_VALIDACION: El tipo de pago no existe");
+                tipoPago = await _repoTipoPago
+                    .GetByIdAsync(dto.IdTipoPago!.Value);
+
+                if (tipoPago == null)
+                {
+                    throw new Exception(
+                        "ERROR_DE_VALIDACION: El tipo de pago no existe");
+                }
             }
+
 
             var cliente = await _repoCliente.GetByIdAsync(dto.IdCliente);
 
             if (cliente == null)
             {
-                throw new Exception( "ERROR_DE_VALIDACION: El cliente no existe");
+                throw new Exception("ERROR_DE_VALIDACION: El cliente no existe");
             }
 
             try
@@ -62,9 +72,9 @@ namespace Aplicacion.Servicios
                 decimal totalVenta = 0;
                 await _unitOfWork.BeginTransactionAsync();
 
-                var idsProductos = dto.Detalles .Select(x => x.IdProducto).Distinct().ToList();
+                var idsProductos = dto.Detalles.Select(x => x.IdProducto).Distinct().ToList();
 
-                var productos =(await _repoProducto.GetByIdsAsync(idsProductos))
+                var productos = (await _repoProducto.GetByIdsAsync(idsProductos))
                     .ToList();
 
                 if (!productos.Any())
@@ -78,7 +88,6 @@ namespace Aplicacion.Servicios
                     throw new Exception(
                         "ERROR_DE_VALIDACION: Uno o más productos no existen");
                 }
-
 
                 //validaciones de negocio
                 foreach (var detalle in dto.Detalles)
@@ -104,10 +113,10 @@ namespace Aplicacion.Servicios
 
                     detallesVenta.Add(new TblDetalleVenta
                     {
-                         IdProducto =detalle.IdProducto, 
-                         Cantidad = detalle.Cantidad,
-                         PrecioVenta = detalle.PrecioVenta ,
-                         EstadoRegistro =true
+                        IdProducto = detalle.IdProducto,
+                        Cantidad = detalle.Cantidad,
+                        PrecioVenta = detalle.PrecioVenta,
+                        EstadoRegistro = true
                     });
 
                     producto.ExistenciaActual = producto.ExistenciaActual - detalle.Cantidad;
@@ -118,19 +127,40 @@ namespace Aplicacion.Servicios
                     await _repoProducto.UpdateAsync(producto);
                 }
 
+                decimal montoPagado;
+                string estadoPago;
+
+                if (dto.TipoVenta == TipoVenta.CONTADO)
+                {
+                    if (dto.IdTipoPago is null)
+                    {
+                        throw new Exception("ERROR_DE_VALIDACION: Debe indicar el tipo de pago");
+                    }
+
+                    montoPagado = totalVenta;
+                    estadoPago = EstadoPago.PAGADO.ToString();
+                }
+
+                else
+                {
+                    montoPagado = 0;
+
+                    estadoPago = EstadoPago.PENDIENTE.ToString();
+                }
+
                 venta = new TblVenta
                 {
                     IdCliente = dto.IdCliente,
 
-                    TipoVenta = TipoVenta.CONTADO.ToString(),
+                    TipoVenta = dto.TipoVenta.ToString(),
 
                     TotalVenta = totalVenta,
 
-                    MontoPagado = totalVenta,
+                    MontoPagado = montoPagado,
 
                     IdTipoPago = dto.IdTipoPago,
 
-                    EstadoPago = EstadoPago.PAGADO.ToString(),
+                    EstadoPago = estadoPago,
 
                     FechaVenta = DateTime.Now,
 
@@ -146,13 +176,15 @@ namespace Aplicacion.Servicios
 
                 return new VentaDto
                 {
-                    IdVenta = venta!.IdVenta,
+                    IdVenta = venta.IdVenta,
 
                     IdCliente = venta.IdCliente,
 
+                    NombreCliente = $"{cliente.Nombre} {cliente.Apellido}".Trim(),
+
                     IdTipoPago = venta.IdTipoPago,
 
-                    NombreTipoPago = tipoPago.Nombre,
+                    NombreTipoPago = tipoPago?.Nombre,
 
                     TipoVenta = venta.TipoVenta,
 
@@ -160,13 +192,13 @@ namespace Aplicacion.Servicios
 
                     MontoPagado = venta.MontoPagado,
 
+                    SaldoPendiente = venta.TotalVenta - venta.MontoPagado,
+
                     EstadoPago = venta.EstadoPago,
 
                     FechaVenta = venta.FechaVenta,
 
                     EstadoRegistro = venta.EstadoRegistro,
-
-                    NombreCliente = $"{cliente.Nombre} {cliente.Apellido}",
 
                     Detalles = detallesVenta.Select(x =>
                         new DetalleVentaDto
@@ -176,14 +208,16 @@ namespace Aplicacion.Servicios
                             PrecioVenta = x.PrecioVenta,
                             SubTotal = x.Cantidad * x.PrecioVenta,
                             EstadoRegistro = x.EstadoRegistro
-                        }).ToList()
+                        })
+            .ToList()
                 };
+
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
                 throw new Exception($"INTERNAL_ERROR:{ex.InnerException?.Message ?? ex.Message}");
-            }           
+            }
         }
 
 
@@ -217,7 +251,7 @@ namespace Aplicacion.Servicios
 
                 MontoPagado = venta.MontoPagado,
 
-                SaldoPendiente = venta.SaldoPendiente,
+                SaldoPendiente = venta.TotalVenta - venta.MontoPagado,
 
                 EstadoPago = venta.EstadoPago,
 
